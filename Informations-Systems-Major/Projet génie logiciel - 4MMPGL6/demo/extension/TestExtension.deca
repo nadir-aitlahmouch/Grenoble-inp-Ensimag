@@ -1,0 +1,101 @@
+// Test pour l'extension
+
+#include "Math.decah"
+
+{
+  float pi = 3.1415926;
+  float pi_m = -pi;
+  float PI_4 = 0.78539816339744830675f;
+  float PI_2 = 1.5707963267948966135f;
+  float cos;
+  float sin;
+  float atan1;
+  float atan2; 
+  float sin2;
+  float y;
+  int p;
+  Math m = new Math();
+
+  println("****** Test pour la fonction ****** ");
+  println("Ulp(1.0) = ", m.ulp(1.0));
+  println("Ulp(4.0) = ", m.ulp(4.0));
+  p =  readInt();
+  println("****** Test pour les fonctions cos et sin ****** ");
+  println("cos(pi) = ",m.cos(0.0));
+  println("sin(PI_2) = ", m.sin(PI_2));
+  println("sin(3*PI_4) = ", m.sin(3*PI_4));
+  println("cos(PI_4) = ",m.cos(PI_4));
+  println("sin(2PI_3) = ", m.sin((2*pi)/3));
+  println("cos(pi) = ",m.cos(0.0));
+  println("sin(PI_2) = ", m.sin(PI_2));
+  cos = m.cos(2.0);
+  sin = m.sin(2.0);
+  println("pour x = ", 2.0 ," cos²(x) + sin²(x) = ", cos*cos + sin*sin); 
+    println();
+  
+  println(" Pour de très grande valeur");
+  p =  readInt();
+  println("cos(100.0) = ",m.cos(100.0));
+  println("sin(100.0) = ", m.sin(100.0));
+  cos = m.cos(100.0);
+  sin = m.sin(100.0);
+  println("pour x = ", 100.0 ," cos²(x) + sin²(x) = ", cos*cos + sin*sin); 
+    println();
+
+  println("cos(1000.0) = ",m.cos(1000.0));
+  println("sin(1000.0) = ", m.sin(1000.0));
+  cos = m.cos(1000.0);
+  sin = m.sin(1000.0);
+  println("pour x = ", 1000.0 ," cos²(x) + sin²(x) = ", cos*cos + sin*sin); 
+  println();
+
+  println("cos(10000.0) = ",m.cos(10000.0));
+  println("sin(10000.0) = ", m.sin(10000.0));
+  cos = m.cos(10000.0);
+  sin = m.sin(10000.0);
+  println("pour x = ", 10000.0 ," cos²(x) + sin²(x) = ", cos*cos + sin*sin); 
+  println();
+  println("cos(1000000.0) = ",m.cos(1000000.0));
+  println("sin(1000000.0) = ", m.sin(1000000.0));
+  cos = m.cos(1000000.0);
+  sin = m.sin(1000000.0);
+  println("pour x = ", 1000000.0 ," cos²(x) + sin²(x) = ", cos*cos + sin*sin); 
+  println();
+  println("****** Test pour les fonctions asin et atan ****** ");
+  p = readInt();
+  println("atan(1) = ",m.atan(1.0));
+  println("asin(1) = ", m.asin(1.0));
+ // println("asin(-0.5) = ", m.asin(-0.5));
+  //println("atan(-10.0) = ",m.atan(-10.0));
+  println("différence entre asin(1) - PI_2 est de ",m.asin(1.0)-PI_2);
+  println("différence entre atan(1) - PI_4 est de ",m.atan(1.0)-PI_4);
+  atan1 = m.atan(4.0);
+  atan2 = m.atan(1/4.0);
+  println("Pour x = ", 4.0, " atan(x) + atan(1/x) - pi/2 = ", atan1 + atan2 - PI_2); 
+  sin2 = m.sin(PI_2);
+  println("Pour x = ", PI_2, " asin(sin(x)) - pi/2 = ", m.asin(sin2)- PI_2);
+
+  println();
+  println(" Pour de très grande valeur");
+  p = readInt();
+  println("atan(20) = ",m.atan(20.0));
+  atan1 = m.atan(10.0);
+  atan2 = m.atan(1/10.0);
+  println("Pour x = ", 10.0, " atan(x) + atan(1/x) - pi/2 = ", atan1 + atan2 - PI_2); 
+ println();
+  println("atan(1000) = ",m.atan(1000.0));
+  atan1 = m.atan(1000.0);
+  atan2 = m.atan(1/1000.0);
+  println("Pour x = ", 1000.0, " atan(x) + atan(1/x) - atan(1) = ", atan1 + atan2 - m.atan(1.0)); 
+
+println();
+  println("atan(1000000) = ",m.atan(1000000.0));
+  atan1 = m.atan(1000000.0);
+  atan2 = m.atan(1/1000000.0);
+  println("Pour x = ", 1000000.0, " atan(x) + atan(1/x) - atan(1) = ", atan1 + atan2 - m.atan(1.0)); 
+println();
+  println("atan(1000000000) = ",m.atan(1000000000.0));
+  atan1 = m.atan(1000000000.0);
+  atan2 = m.atan(1/1000000000.0);
+  println("Pour x = ", 1000000000.0, " atan(x) + atan(1/x) - pi/2 = ", atan1 + atan2 - PI_2);
+}

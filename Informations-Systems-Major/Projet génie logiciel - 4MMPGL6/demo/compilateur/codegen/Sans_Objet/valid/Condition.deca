@@ -1,0 +1,19 @@
+// Résultats 
+// OK
+
+{
+    int x = 100;
+    int y = 100;
+
+    if(x != y){
+         print("KO");
+    }
+    else {
+         if(x < y){
+              println("KO_2");
+         }
+         else {
+              println("OK");
+         }
+    }
+}

@@ -1,0 +1,148 @@
+; start main program
+; ----------------------------------------
+;              Table des méthodes
+; ----------------------------------------
+;         Construction des tables des methodes
+; Construction des tables des methodes de la classe Object
+	LOAD #null, R0
+	STORE R0, 1(GB)
+	LOAD code.Object.equals, R0
+	STORE R0, 2(GB)
+; ----------------------------------------
+;              Main Program
+; ----------------------------------------
+	TSTO #0
+	BOV stack_overflow_error
+	ADDSP #3
+	ADDSP #6
+	LOAD #1, R0
+	STORE R0, 3(GB)
+	LOAD #1, R0
+	STORE R0, 4(GB)
+	LOAD #1, R0
+	CMP 4(GB), R0
+	SEQ R0
+	LOAD R0, R1
+	LOAD #1, R2
+	CMP 3(GB), R2
+	BLT OrBody.1525
+	BRA OrEnd.1525
+OrBody.1525:
+	LOAD #1, R1
+OrEnd.1525:
+	LOAD R1, R3
+	STORE R3, 5(GB)
+	LOAD #1, R3
+	CMP 4(GB), R3
+	SNE R3
+	LOAD R3, R4
+	LOAD #4, R5
+	OPP #4, R5
+	LOAD R5, R5
+	CMP 3(GB), R5
+	BGT OrBody.1926
+	BRA OrEnd.1926
+OrBody.1926:
+	LOAD #1, R4
+OrEnd.1926:
+	LOAD R4, R6
+	STORE R6, 6(GB)
+	LOAD 4(GB), R6
+	CMP #0, R6
+	SLT R6
+	LOAD R6, R7
+	LOAD 3(GB), R8
+	CMP #0, R8
+	BGT OrBody.2326
+	BRA OrEnd.2326
+OrBody.2326:
+	LOAD #1, R7
+OrEnd.2326:
+	LOAD R7, R9
+	STORE R9, 7(GB)
+	LOAD 4(GB), R9
+	CMP #1, R9
+	SLE R9
+	LOAD R9, R10
+	LOAD 3(GB), R11
+	CMP #1, R11
+	BGE OrBody.2727
+	BRA OrEnd.2727
+OrBody.2727:
+	LOAD #1, R10
+OrEnd.2727:
+	LOAD R10, R12
+	STORE R12, 8(GB)
+; Beginning of main instructions:
+	LOAD 5(GB), R1
+	BEQ Else.294
+	WSTR "OK   1"
+	WNL
+Else.294:
+Fin.294:
+	LOAD 6(GB), R1
+	BEQ Else.314
+	WSTR "KO   2"
+	WNL
+Else.314:
+Fin.314:
+	LOAD 7(GB), R1
+	BEQ Else.334
+	WSTR "OK   3"
+	WNL
+Else.334:
+Fin.334:
+	LOAD 8(GB), R1
+	BEQ Else.354
+	WSTR "OK   4"
+	WNL
+Else.354:
+Fin.354:
+	HALT
+; end main program
+; -> Declaration des classes
+; ----------------------------------------
+;              Class Object
+; ----------------------------------------
+init.Object:
+	RTS
+code.Object.equals:
+	TSTO #2
+; Sauvegarde de registres
+	PUSH R2
+	PUSH R3
+; Test de comparaison
+	LOAD -2(LB), R2
+	LOAD -3(LB), R3
+	CMP R2, R3
+	SEQ R0
+; Restauration des registres
+	POP R3
+	POP R2
+fin.Object.equals:
+	RTS
+; --------------ERREUR OVERFLOW------------
+overflow_error:
+	WSTR "Error: Overflow during arithmetic operation"
+	WNL
+	ERROR
+; ------------ERREUR STACKOVERFLOW----------
+stack_overflow_error:
+	WSTR "Error: Stack Overflow"
+	WNL
+	ERROR
+; ------------ERREUR DEREFERENCEMENT----------
+dereferencement_null:
+	WSTR "Erreur : dereferencement de null"
+	WNL
+	ERROR
+; ------------ERREUR INPUT/OUTPUT----------
+IO_error:
+	WSTR "Erreur : Input/Output invalide."
+	WNL
+	ERROR
+; ------------ERREUR DE CAST----------
+cast_error:
+	WSTR "Erreur : Cast Incompatible"
+	WNL
+	ERROR

@@ -1,0 +1,10 @@
+#include "Math.decah"
+{
+	Math m = new Math();
+	float x = 3.1415926;
+	println("cos(x):" , m.cos(x));
+        println("sin(x): ",m.sin(x));
+        println(m.atan(x));
+	println(m.ulp(x));
+	println(m.asin(x));
+}

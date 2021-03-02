@@ -1,0 +1,499 @@
+; start main program
+; ----------------------------------------
+;              Table des méthodes
+; ----------------------------------------
+;         Construction des tables des methodes
+; Construction des tables des methodes de la classe Object
+	LOAD #null, R0
+	STORE R0, 1(GB)
+	LOAD code.Object.equals, R0
+	STORE R0, 2(GB)
+; Construction des tables des methodes de la classe B
+	LEA 1(GB), R0
+	STORE R0, 3(GB)
+	LOAD code.Object.equals, R0
+	STORE R0, 4(GB)
+	LOAD code.B.puiss, R0
+	STORE R0, 5(GB)
+	LOAD code.B.serie, R0
+	STORE R0, 6(GB)
+	LOAD code.B.param, R0
+	STORE R0, 7(GB)
+; Construction des tables des methodes de la classe A
+	LEA 3(GB), R0
+	STORE R0, 8(GB)
+	LOAD code.Object.equals, R0
+	STORE R0, 9(GB)
+	LOAD code.B.puiss, R0
+	STORE R0, 10(GB)
+	LOAD code.B.serie, R0
+	STORE R0, 11(GB)
+	LOAD code.B.param, R0
+	STORE R0, 12(GB)
+	LOAD code.A.cal, R0
+	STORE R0, 13(GB)
+; ----------------------------------------
+;              Main Program
+; ----------------------------------------
+	TSTO #0
+	BOV stack_overflow_error
+	ADDSP #14
+	ADDSP #3
+	NEW #4, R0
+	BOV stack_overflow_error
+	LEA 3(GB), R1
+	STORE R1, 0(R0)
+	PUSH R0
+	BSR init.B
+	POP R0
+	LOAD R0, R1
+	STORE R1, 14(GB)
+	NEW #8, R1
+	BOV stack_overflow_error
+	LEA 8(GB), R2
+	STORE R2, 0(R1)
+	PUSH R1
+	BSR init.A
+	POP R1
+	LOAD R1, R2
+	STORE R2, 15(GB)
+; Method call : B.serie
+	ADDSP #2
+; load de l'objet dans r
+	LOAD 14(GB), R2
+; store l'objet dans 0(SP)
+	STORE R2, 0(SP)
+; store des parametres de la methodes dans -1(SP) ..... -n(SP)
+	LOAD #100, R2
+	STORE R2, -1(SP)
+; Recuperation de l'objet qu'on a Store dnas 0(SP)
+	LOAD 0(SP), R2
+; On test si l'objet est null
+	CMP #null, R2
+	BEQ dereferencement_null
+; On récupère l’adresse de la table des méthodes
+	LOAD 0(R2), R2
+	BSR 3(R2)
+	SUBSP #2
+	LOAD R0, R2
+	STORE R2, 16(GB)
+; Beginning of main instructions:
+	LOAD #100, R2
+	ADD #1, R2
+	LOAD #100, R3
+	MUL R2, R3
+	LOAD R3, R3
+	QUO #2, R3
+	LOAD R3, R1
+	WINT
+	WSTR " = "
+	LOAD 16(GB), R1
+	WINT
+	WNL
+; Method call : A.cal
+	ADDSP #1
+; load de l'objet dans r
+	LOAD 15(GB), R2
+; store l'objet dans 0(SP)
+	STORE R2, 0(SP)
+; store des parametres de la methodes dans -1(SP) ..... -n(SP)
+; Recuperation de l'objet qu'on a Store dnas 0(SP)
+	LOAD 0(SP), R2
+; On test si l'objet est null
+	CMP #null, R2
+	BEQ dereferencement_null
+; On récupère l’adresse de la table des méthodes
+	LOAD 0(R2), R2
+	BSR 5(R2)
+	SUBSP #1
+	WSTR "25? "
+; Method call : B.puiss
+	ADDSP #3
+; load de l'objet dans r
+	LOAD 14(GB), R2
+; store l'objet dans 0(SP)
+	STORE R2, 0(SP)
+; store des parametres de la methodes dans -1(SP) ..... -n(SP)
+	LOAD #5, R2
+	STORE R2, -1(SP)
+	LOAD #2, R2
+	STORE R2, -2(SP)
+; Recuperation de l'objet qu'on a Store dnas 0(SP)
+	LOAD 0(SP), R2
+; On test si l'objet est null
+	CMP #null, R2
+	BEQ dereferencement_null
+; On récupère l’adresse de la table des méthodes
+	LOAD 0(R2), R2
+	BSR 2(R2)
+	SUBSP #3
+	LOAD R0, R1
+	WINT
+	WNL
+	HALT
+; end main program
+; -> Declaration des classes
+; ----------------------------------------
+;              Class Object
+; ----------------------------------------
+init.Object:
+	RTS
+code.Object.equals:
+	TSTO #2
+; Sauvegarde de registres
+	PUSH R2
+	PUSH R3
+; Test de comparaison
+	LOAD -2(LB), R2
+	LOAD -3(LB), R3
+	CMP R2, R3
+	SEQ R0
+; Restauration des registres
+	POP R3
+	POP R2
+fin.Object.equals:
+	RTS
+; ----------------------------------------
+;              Class B
+; ----------------------------------------
+init.B:
+	LOAD -2(LB), R0
+	LOAD #0, R1
+	STORE R1, 1(R0)
+	LOAD #0x0.0p0, R1
+	STORE R1, 2(R0)
+	LOAD -2(LB), R0
+	PUSH R1
+	LOAD #1, R1
+	STORE R1, 1(R0)
+	LOAD #2, R4
+	FLOAT #2, R4
+	LOAD -2(LB), R0
+	PUSH R1
+	LOAD R4, R1
+	STORE R1, 2(R0)
+	LOAD -2(LB), R0
+	RTS
+; --------------Code de la méthode puiss
+code.B.puiss:
+	TSTO #8
+	BOV stack_overflow_error
+	ADDSP #1
+; Variables locales
+	PUSH R2
+	LOAD #1, R2
+	STORE R2, 1(LB)
+	POP R2
+; Instructions
+	BRA WhileCondition.151
+WhileDebut.151:
+	PUSH R3
+	LOAD 1(LB), R3
+	MUL -3(LB), R3
+	STORE R3, 1(LB)
+	POP R3
+	PUSH R4
+	LOAD -4(LB), R4
+	SUB #1, R4
+	STORE R4, -4(LB)
+	POP R4
+WhileCondition.151:
+	PUSH R5
+	LOAD -4(LB), R5
+	CMP #0, R5
+	BGT WhileDebut.151
+	PUSH R0
+; return 
+	LOAD 1(LB), R0
+	BRA fin.B.puiss
+	POP R0
+	POP R5
+	SUBSP #1
+	WSTR "Erreur : sortie de la méthode <puiss> sans return."
+	WNL
+	ERROR
+fin.B.puiss:
+	RTS
+; --------------Code de la méthode serie
+code.B.serie:
+	TSTO #8
+	BOV stack_overflow_error
+	ADDSP #2
+; Variables locales
+	PUSH R2
+	LOAD #0, R2
+	STORE R2, 1(LB)
+	POP R2
+	PUSH R3
+	LOAD #1, R3
+	STORE R3, 2(LB)
+	POP R3
+; Instructions
+	BRA WhileCondition.251
+WhileDebut.251:
+	PUSH R4
+	LOAD 1(LB), R4
+	ADD 2(LB), R4
+	STORE R4, 1(LB)
+	POP R4
+	PUSH R5
+	LOAD 2(LB), R5
+	ADD #1, R5
+	STORE R5, 2(LB)
+	POP R5
+WhileCondition.251:
+	PUSH R6
+	LOAD 2(LB), R6
+	CMP -3(LB), R6
+	BLE WhileDebut.251
+	PUSH R0
+; return 
+	LOAD 1(LB), R0
+	BRA fin.B.serie
+	POP R0
+	POP R6
+	SUBSP #2
+	WSTR "Erreur : sortie de la méthode <serie> sans return."
+	WNL
+	ERROR
+fin.B.serie:
+	RTS
+; --------------Code de la méthode param
+code.B.param:
+	TSTO #2
+	BOV stack_overflow_error
+	ADDSP #0
+; Variables locales
+; Instructions
+	PUSH R2
+	LOAD -2(LB), R2
+	CMP #null, R2
+	BEQ dereferencement_null
+	PUSH R3
+	LOAD #0, R3
+	STORE R3, 3(R2)
+	POP R3
+	POP R2
+	SUBSP #0
+	WSTR "Erreur : sortie de la méthode <param> sans return."
+	WNL
+	ERROR
+fin.B.param:
+	RTS
+; ----------------------------------------
+;              Class A
+; ----------------------------------------
+init.A:
+	PUSH R0
+	PUSH R1
+	LOAD -2(LB), R0
+	LOAD #0, R1
+	STORE R1, 4(R0)
+	PUSH R0
+	BSR init.B
+	POP R0
+	LOAD -2(LB), R0
+	PUSH R1
+	LOAD #1, R1
+	STORE R1, 4(R0)
+	LOAD -2(LB), R0
+	PUSH R1
+	LOAD #0, R1
+	STORE R1, 5(R0)
+	LOAD -2(LB), R0
+	PUSH R1
+	LOAD #1, R1
+	STORE R1, 6(R0)
+	PUSH R4
+	LOAD #1, R4
+	PUSH R5
+	LOAD #4, R5
+	CMP #1, R5
+	BLE AndBody.4359
+	PUSH R6
+	LOAD -2(LB), R6
+	PUSH R7
+	LOAD 5(R6), R7
+	BNE AndBody.4359
+	PUSH R8
+	LOAD -2(LB), R8
+	LOAD 6(R8), R1
+	BEQ AndBody.4359
+FinOr.4329:
+	BRA AndBody.4359
+FinAnd.4334:
+FinOr.4351:
+	BRA AndEnd.4359
+AndBody.4359:
+	LOAD #0, R4
+AndEnd.4359:
+	LOAD -2(LB), R0
+	PUSH R1
+	LOAD R4, R1
+	STORE R1, 7(R0)
+	RTS
+; --------------Code de la méthode cal
+code.A.cal:
+	TSTO #38
+	BOV stack_overflow_error
+	ADDSP #0
+; Variables locales
+; Instructions
+	PUSH R2
+	LOAD -2(LB), R2
+	PUSH R3
+	LOAD 4(R2), R3
+	MUL #1, R3
+	PUSH R4
+	LOAD -2(LB), R4
+	PUSH R5
+	LOAD 4(R4), R5
+	MUL #2, R5
+	LOAD R3, R3
+	ADD R5, R3
+	POP R5
+	PUSH R6
+	LOAD -2(LB), R6
+	PUSH R7
+	LOAD 4(R6), R7
+	MUL #3, R7
+	PUSH R8
+	LOAD -2(LB), R8
+	PUSH R9
+	LOAD 4(R8), R9
+	MUL #4, R9
+	LOAD R7, R7
+	ADD R9, R7
+	POP R9
+	LOAD R3, R3
+	ADD R7, R3
+	POP R7
+	PUSH R10
+	LOAD -2(LB), R10
+	PUSH R11
+	LOAD 4(R10), R11
+	MUL #5, R11
+	PUSH R12
+	LOAD -2(LB), R12
+	PUSH R13
+	LOAD 4(R12), R13
+	MUL #6, R13
+	LOAD R11, R11
+	ADD R13, R11
+	POP R13
+	PUSH R14
+	LOAD -2(LB), R14
+	PUSH R0
+	LOAD 4(R14), R0
+	MUL #7, R0
+	PUSH R2
+	LOAD -2(LB), R2
+	PUSH R3
+	LOAD 4(R2), R3
+	MUL #8, R3
+	LOAD R0, R0
+	ADD R3, R0
+	POP R3
+	LOAD R11, R11
+	ADD R0, R11
+	POP R0
+	LOAD R3, R3
+	ADD R11, R3
+	POP R11
+	PUSH R4
+	LOAD -2(LB), R4
+	PUSH R5
+	LOAD 4(R4), R5
+	MUL #9, R5
+	PUSH R6
+	LOAD -2(LB), R6
+	PUSH R7
+	LOAD 4(R6), R7
+	MUL #10, R7
+	LOAD R5, R5
+	ADD R7, R5
+	POP R7
+	PUSH R8
+	LOAD -2(LB), R8
+	PUSH R9
+	LOAD 4(R8), R9
+	MUL #11, R9
+	LOAD R5, R5
+	ADD R9, R5
+	POP R9
+	LOAD R3, R3
+	ADD R5, R3
+	POP R5
+	LOAD R3, R1
+	WINT
+	WNL
+	PUSH R10
+	LOAD -2(LB), R10
+	PUSH R11
+	LOAD 5(R10), R11
+	BNE Else.496
+	PUSH R12
+	LOAD -2(LB), R12
+	LOAD 6(R12), R1
+	BEQ Else.496
+FinOr.4912:
+	PUSH R13
+	LOAD -2(LB), R13
+	LOAD 7(R13), R1
+	BEQ Else.496
+	WSTR "KO"
+	WNL
+Else.496:
+Fin.496:
+	PUSH R0
+; return 
+	LOAD #0, R0
+	BRA fin.A.cal
+	POP R0
+	POP R13
+	POP R12
+	POP R11
+	POP R10
+	POP R6
+	POP R5
+	POP R4
+	POP R14
+	POP R12
+	POP R11
+	POP R10
+	POP R7
+	POP R6
+	POP R4
+	POP R3
+	POP R2
+	SUBSP #0
+	WSTR "Erreur : sortie de la méthode <cal> sans return."
+	WNL
+	ERROR
+fin.A.cal:
+	RTS
+; --------------ERREUR OVERFLOW------------
+overflow_error:
+	WSTR "Error: Overflow during arithmetic operation"
+	WNL
+	ERROR
+; ------------ERREUR STACKOVERFLOW----------
+stack_overflow_error:
+	WSTR "Error: Stack Overflow"
+	WNL
+	ERROR
+; ------------ERREUR DEREFERENCEMENT----------
+dereferencement_null:
+	WSTR "Erreur : dereferencement de null"
+	WNL
+	ERROR
+; ------------ERREUR INPUT/OUTPUT----------
+IO_error:
+	WSTR "Erreur : Input/Output invalide."
+	WNL
+	ERROR
+; ------------ERREUR DE CAST----------
+cast_error:
+	WSTR "Erreur : Cast Incompatible"
+	WNL
+	ERROR

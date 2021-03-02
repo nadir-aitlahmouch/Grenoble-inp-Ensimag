@@ -1,0 +1,138 @@
+; start main program
+; ----------------------------------------
+;              Table des méthodes
+; ----------------------------------------
+;         Construction des tables des methodes
+; Construction des tables des methodes de la classe Object
+	LOAD #null, R0
+	STORE R0, 1(GB)
+	LOAD code.Object.equals, R0
+	STORE R0, 2(GB)
+; Construction des tables des methodes de la classe A
+	LEA 1(GB), R0
+	STORE R0, 3(GB)
+	LOAD code.Object.equals, R0
+	STORE R0, 4(GB)
+	LOAD code.A.mult, R0
+	STORE R0, 5(GB)
+; ----------------------------------------
+;              Main Program
+; ----------------------------------------
+	TSTO #0
+	BOV stack_overflow_error
+	ADDSP #6
+	ADDSP #1
+	NEW #1, R0
+	BOV stack_overflow_error
+	LEA 3(GB), R1
+	STORE R1, 0(R0)
+	PUSH R0
+	BSR init.A
+	POP R0
+	LOAD R0, R1
+	STORE R1, 6(GB)
+; Beginning of main instructions:
+	WSTR "4? "
+; Method call : A.mult
+	ADDSP #3
+; load de l'objet dans r
+	LOAD 6(GB), R2
+; store l'objet dans 0(SP)
+	STORE R2, 0(SP)
+; store des parametres de la methodes dans -1(SP) ..... -n(SP)
+	LOAD #2, R2
+	STORE R2, -1(SP)
+	LOAD #0x1.19999ap1, R2
+	STORE R2, -2(SP)
+; Recuperation de l'objet qu'on a Store dnas 0(SP)
+	LOAD 0(SP), R2
+; On test si l'objet est null
+	CMP #null, R2
+	BEQ dereferencement_null
+; On récupère l’adresse de la table des méthodes
+	LOAD 0(R2), R2
+	BSR 2(R2)
+	SUBSP #3
+	INT R0, R2
+	LOAD R2, R1
+	WINT
+	WNL
+	HALT
+; end main program
+; -> Declaration des classes
+; ----------------------------------------
+;              Class Object
+; ----------------------------------------
+init.Object:
+	RTS
+code.Object.equals:
+	TSTO #2
+; Sauvegarde de registres
+	PUSH R2
+	PUSH R3
+; Test de comparaison
+	LOAD -2(LB), R2
+	LOAD -3(LB), R3
+	CMP R2, R3
+	SEQ R0
+; Restauration des registres
+	POP R3
+	POP R2
+fin.Object.equals:
+	RTS
+; ----------------------------------------
+;              Class A
+; ----------------------------------------
+init.A:
+	LOAD -2(LB), R0
+	RTS
+; --------------Code de la méthode mult
+code.A.mult:
+	TSTO #2
+	BOV stack_overflow_error
+	ADDSP #0
+; Variables locales
+; Instructions
+	PUSH R0
+; return 
+	PUSH R2
+	LOAD -3(LB), R2
+	FLOAT -3(LB), R2
+	LOAD R2, R2
+	MUL -4(LB), R2
+	BOV overflow_error
+	LOAD R2, R0
+	BRA fin.A.mult
+	POP R2
+	POP R0
+	SUBSP #0
+	WSTR "Erreur : sortie de la méthode <mult> sans return."
+	WNL
+	ERROR
+fin.A.mult:
+	RTS
+; --------------ERREUR OVERFLOW------------
+overflow_error:
+	WSTR "Error: Overflow during arithmetic operation"
+	WNL
+	ERROR
+; ------------ERREUR STACKOVERFLOW----------
+stack_overflow_error:
+	WSTR "Error: Stack Overflow"
+	WNL
+	ERROR
+; ------------ERREUR DEREFERENCEMENT----------
+dereferencement_null:
+	WSTR "Erreur : dereferencement de null"
+	WNL
+	ERROR
+; ------------ERREUR INPUT/OUTPUT----------
+IO_error:
+	WSTR "Erreur : Input/Output invalide."
+	WNL
+	ERROR
+; ------------ERREUR DE CAST----------
+cast_error:
+	WSTR "Erreur : Cast Incompatible"
+	WNL
+	ERROR

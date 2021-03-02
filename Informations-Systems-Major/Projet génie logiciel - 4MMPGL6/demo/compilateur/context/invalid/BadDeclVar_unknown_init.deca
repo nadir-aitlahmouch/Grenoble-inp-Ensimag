@@ -1,0 +1,5 @@
+// undeclared Symbol
+
+{
+    float x = y;
+}

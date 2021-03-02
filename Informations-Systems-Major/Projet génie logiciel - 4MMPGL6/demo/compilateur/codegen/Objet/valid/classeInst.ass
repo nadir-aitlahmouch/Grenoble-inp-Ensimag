@@ -1,0 +1,88 @@
+; start main program
+; ----------------------------------------
+;              Table des méthodes
+; ----------------------------------------
+;         Construction des tables des methodes
+; Construction des tables des methodes de la classe Object
+	LOAD #null, R0
+	STORE R0, 1(GB)
+	LOAD code.Object.equals, R0
+	STORE R0, 2(GB)
+; Construction des tables des methodes de la classe A
+	LEA 1(GB), R0
+	STORE R0, 3(GB)
+	LOAD code.Object.equals, R0
+	STORE R0, 4(GB)
+; ----------------------------------------
+;              Main Program
+; ----------------------------------------
+	TSTO #0
+	BOV stack_overflow_error
+	ADDSP #5
+	ADDSP #1
+	NEW #1, R0
+	BOV stack_overflow_error
+	LEA 3(GB), R1
+	STORE R1, 0(R0)
+	PUSH R0
+	BSR init.A
+	POP R0
+	LOAD R0, R1
+	STORE R1, 5(GB)
+; Beginning of main instructions:
+	WSTR "OK"
+	WNL
+	HALT
+; end main program
+; -> Declaration des classes
+; ----------------------------------------
+;              Class Object
+; ----------------------------------------
+init.Object:
+	RTS
+code.Object.equals:
+	TSTO #2
+; Sauvegarde de registres
+	PUSH R2
+	PUSH R3
+; Test de comparaison
+	LOAD -2(LB), R2
+	LOAD -3(LB), R3
+	CMP R2, R3
+	SEQ R0
+; Restauration des registres
+	POP R3
+	POP R2
+fin.Object.equals:
+	RTS
+; ----------------------------------------
+;              Class A
+; ----------------------------------------
+init.A:
+	LOAD -2(LB), R0
+	RTS
+; --------------ERREUR OVERFLOW------------
+overflow_error:
+	WSTR "Error: Overflow during arithmetic operation"
+	WNL
+	ERROR
+; ------------ERREUR STACKOVERFLOW----------
+stack_overflow_error:
+	WSTR "Error: Stack Overflow"
+	WNL
+	ERROR
+; ------------ERREUR DEREFERENCEMENT----------
+dereferencement_null:
+	WSTR "Erreur : dereferencement de null"
+	WNL
+	ERROR
+; ------------ERREUR INPUT/OUTPUT----------
+IO_error:
+	WSTR "Erreur : Input/Output invalide."
+	WNL
+	ERROR
+; ------------ERREUR DE CAST----------
+cast_error:
+	WSTR "Erreur : Cast Incompatible"
+	WNL
+	ERROR

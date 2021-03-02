@@ -1,0 +1,37 @@
+// Résultats
+// OK   1
+// OK   3
+// OK   4
+
+
+
+{
+    int y = 1;
+    int z = 1;
+    //TestAndOr
+
+    //           false  ||   true
+
+    boolean x1 = (1 < y) || (1 == z);
+
+    //            false  ||  false
+
+    boolean x2 = (-4 > y) || (1 != z);
+
+    //            true   ||   false
+
+    boolean x3 =  (y > 0) || (z < 0);
+
+    //            true   ||   true
+
+    boolean x4 =  (y >= 1) || (z <= 1);
+
+    if(x1) {   println("OK   1");  }
+
+    if(x2) {   println("KO   2");  }
+
+    if(x3) {   println("OK   3");  }
+
+    if(x4) {   println("OK   4");  }
+
+}

@@ -1,0 +1,62 @@
+// Résultats
+// 5050 = 5050
+// 66
+// 25? 25
+
+
+class B{
+  int x = 1;
+  float y = 2;
+  boolean z;
+
+  int puiss(int x, int puiss)
+  {
+	int res = 1;
+	while (puiss > 0){
+		res = res * x;
+		puiss = puiss - 1;
+		}
+	return res;
+  }
+
+  int serie(int n){
+	int res = 0;
+	int courant = 1;
+	while (courant <= n){
+		res = res + courant;
+                courant = courant + 1;
+}
+	return res;
+}
+
+  int param()
+  {
+    this.z = false;
+  }
+}
+
+class A extends B
+{
+  int n = 1;
+  boolean x = false;
+  boolean y = true;
+  boolean z = (((4 > 1) && (x||y) && (true||false))||true) && true;
+
+  int cal()
+  {
+  println(((((((n*1)+(n*2))+((n*3)+(n*4)))+(((n*5)+(n*6))+((n*7)+(n*8))))+((((n*9)+(n*10))+((n*11)))))));
+
+      if((x || y) && (z && true)){println("KO");}
+      return 0;
+  }
+
+}
+
+{
+  B b = new B();
+  A a = new A();
+  int res = b.serie(100);
+  println((100*(100 + 1))/2, " = ", res); 
+  a.cal();
+  println("25? ",b.puiss(5, 2)); 
+}

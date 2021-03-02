@@ -1,0 +1,520 @@
+; start main program
+; ----------------------------------------
+;              Table des méthodes
+; ----------------------------------------
+;         Construction des tables des methodes
+; Construction des tables des methodes de la classe Object
+	LOAD #null, R0
+	STORE R0, 1(GB)
+	LOAD code.Object.equals, R0
+	STORE R0, 2(GB)
+; Construction des tables des methodes de la classe A
+	LEA 1(GB), R0
+	STORE R0, 3(GB)
+	LOAD code.Object.equals, R0
+	STORE R0, 4(GB)
+	LOAD code.A.setX, R0
+	STORE R0, 5(GB)
+	LOAD code.A.getX, R0
+	STORE R0, 6(GB)
+	LOAD code.A.Method, R0
+	STORE R0, 7(GB)
+; Construction des tables des methodes de la classe B
+	LEA 3(GB), R0
+	STORE R0, 8(GB)
+	LOAD code.Object.equals, R0
+	STORE R0, 9(GB)
+	LOAD code.A.setX, R0
+	STORE R0, 10(GB)
+	LOAD code.A.getX, R0
+	STORE R0, 11(GB)
+	LOAD code.A.Method, R0
+	STORE R0, 12(GB)
+	LOAD code.B.getNmbrOr, R0
+	STORE R0, 13(GB)
+; Construction des tables des methodes de la classe C
+	LEA 3(GB), R0
+	STORE R0, 14(GB)
+	LOAD code.Object.equals, R0
+	STORE R0, 15(GB)
+	LOAD code.A.setX, R0
+	STORE R0, 16(GB)
+	LOAD code.A.getX, R0
+	STORE R0, 17(GB)
+	LOAD code.C.Method, R0
+	STORE R0, 18(GB)
+	LOAD code.C.getNmbrOr, R0
+	STORE R0, 19(GB)
+; ----------------------------------------
+;              Main Program
+; ----------------------------------------
+	TSTO #0
+	BOV stack_overflow_error
+	ADDSP #20
+	ADDSP #3
+	NEW #5, R0
+	BOV stack_overflow_error
+	LEA 3(GB), R1
+	STORE R1, 0(R0)
+	PUSH R0
+	BSR init.A
+	POP R0
+	LOAD R0, R1
+	STORE R1, 20(GB)
+	NEW #8, R1
+	BOV stack_overflow_error
+	LEA 8(GB), R2
+	STORE R2, 0(R1)
+	PUSH R1
+	BSR init.B
+	POP R1
+	LOAD R1, R2
+	STORE R2, 21(GB)
+	LOAD #null, R2
+	STORE R2, 22(GB)
+; Beginning of main instructions:
+	LOAD 21(GB), R10
+	CMP #null, R10
+	BEQ dereferencement_null
+	LOAD 7(R10), R2
+	BEQ Else.602
+	PUSH R2
+; Method call : B.Method
+	ADDSP #4
+; load de l'objet dans r
+	LOAD 21(GB), R2
+; store l'objet dans 0(SP)
+	STORE R2, 0(SP)
+; store des parametres de la methodes dans -1(SP) ..... -n(SP)
+	LOAD #1, R2
+	STORE R2, -1(SP)
+	LOAD #0x1.0p-1, R2
+	STORE R2, -2(SP)
+	LOAD #0, R2
+	STORE R2, -3(SP)
+; Recuperation de l'objet qu'on a Store dnas 0(SP)
+	LOAD 0(SP), R2
+; On test si l'objet est null
+	CMP #null, R2
+	BEQ dereferencement_null
+; On récupère l’adresse de la table des méthodes
+	LOAD 0(R2), R2
+	BSR 4(R2)
+	SUBSP #4
+	POP R2
+	LOAD R0, R1
+	WFLOAT
+	WNL
+	PUSH R2
+; Method call : B.getNmbrOr
+	ADDSP #1
+; load de l'objet dans r
+	LOAD 21(GB), R2
+; store l'objet dans 0(SP)
+	STORE R2, 0(SP)
+; store des parametres de la methodes dans -1(SP) ..... -n(SP)
+; Recuperation de l'objet qu'on a Store dnas 0(SP)
+	LOAD 0(SP), R2
+; On test si l'objet est null
+	CMP #null, R2
+	BEQ dereferencement_null
+; On récupère l’adresse de la table des méthodes
+	LOAD 0(R2), R2
+	BSR 5(R2)
+	SUBSP #1
+	POP R2
+	LOAD R0, R1
+	WINT
+	WNL
+	PUSH R10
+	LOAD 21(GB), R10
+	CMP #null, R10
+	BEQ dereferencement_null
+	LOAD #5, R3
+	FLOAT #5, R3
+	LOAD 5(R10), R4
+	MUL R3, R4
+	BOV overflow_error
+	LOAD R4, R1
+	WFLOAT
+	WNL
+Else.602:
+Fin.602:
+	NEW #6, R3
+	BOV stack_overflow_error
+	LEA 14(GB), R5
+	STORE R5, 0(R3)
+	PUSH R3
+	BSR init.C
+	POP R3
+	STORE R3, 22(GB)
+	PUSH R2
+; Method call : C.getNmbrOr
+	ADDSP #1
+; load de l'objet dans r
+	LOAD 22(GB), R2
+; store l'objet dans 0(SP)
+	STORE R2, 0(SP)
+; store des parametres de la methodes dans -1(SP) ..... -n(SP)
+; Recuperation de l'objet qu'on a Store dnas 0(SP)
+	LOAD 0(SP), R2
+; On test si l'objet est null
+	CMP #null, R2
+	BEQ dereferencement_null
+; On récupère l’adresse de la table des méthodes
+	LOAD 0(R2), R2
+	BSR 5(R2)
+	SUBSP #1
+	POP R2
+	LOAD R0, R1
+	WFLOAT
+	WNL
+	PUSH R2
+; Method call : C.getX
+	ADDSP #1
+; load de l'objet dans r
+	LOAD 22(GB), R2
+; store l'objet dans 0(SP)
+	STORE R2, 0(SP)
+; store des parametres de la methodes dans -1(SP) ..... -n(SP)
+; Recuperation de l'objet qu'on a Store dnas 0(SP)
+	LOAD 0(SP), R2
+; On test si l'objet est null
+	CMP #null, R2
+	BEQ dereferencement_null
+; On récupère l’adresse de la table des méthodes
+	LOAD 0(R2), R2
+	BSR 3(R2)
+	SUBSP #1
+	POP R2
+	LOAD R0, R1
+	WINT
+	WNL
+	PUSH R10
+	LOAD 22(GB), R10
+	CMP #null, R10
+	BEQ dereferencement_null
+	LOAD 5(R10), R1
+	WFLOAT
+	WNL
+Else.652:
+Fin.652:
+	HALT
+; end main program
+; -> Declaration des classes
+; ----------------------------------------
+;              Class Object
+; ----------------------------------------
+init.Object:
+	RTS
+code.Object.equals:
+	TSTO #2
+; Sauvegarde de registres
+	PUSH R2
+	PUSH R3
+; Test de comparaison
+	LOAD -2(LB), R2
+	LOAD -3(LB), R3
+	CMP R2, R3
+	SEQ R0
+; Restauration des registres
+	POP R3
+	POP R2
+fin.Object.equals:
+	RTS
+; ----------------------------------------
+;              Class A
+; ----------------------------------------
+init.A:
+	LOAD -2(LB), R0
+	LOAD #0, R1
+	STORE R1, 1(R0)
+	LOAD #0x0.0p0, R1
+	STORE R1, 2(R0)
+	LOAD -2(LB), R0
+	PUSH R1
+	LOAD #0, R1
+	STORE R1, 1(R0)
+	LOAD #0, R4
+	FLOAT #0, R4
+	LOAD -2(LB), R0
+	PUSH R1
+	LOAD R4, R1
+	STORE R1, 2(R0)
+	LOAD -2(LB), R0
+	PUSH R1
+	LOAD #0, R1
+	STORE R1, 3(R0)
+	LOAD -2(LB), R0
+	RTS
+; --------------Code de la méthode setX
+code.A.setX:
+	TSTO #5
+	BOV stack_overflow_error
+	ADDSP #0
+; Variables locales
+; Instructions
+	PUSH R2
+	LOAD -2(LB), R2
+	CMP #null, R2
+	BEQ dereferencement_null
+	PUSH R3
+	LOAD -3(LB), R3
+	STORE R3, 1(R2)
+	POP R3
+	WSTR "x devient  "
+	LOAD -3(LB), R1
+	WINT
+	WNL
+	POP R2
+	SUBSP #0
+fin.A.setX:
+	RTS
+; --------------Code de la méthode getX
+code.A.getX:
+	TSTO #2
+	BOV stack_overflow_error
+	ADDSP #0
+; Variables locales
+; Instructions
+	PUSH R0
+; return 
+	PUSH R2
+	LOAD -2(LB), R2
+	LOAD 1(R2), R0
+	BRA fin.A.getX
+	POP R2
+	POP R0
+	SUBSP #0
+	WSTR "Erreur : sortie de la méthode <getX> sans return."
+	WNL
+	ERROR
+fin.A.getX:
+	RTS
+; --------------Code de la méthode Method
+code.A.Method:
+	TSTO #10
+	BOV stack_overflow_error
+	ADDSP #0
+; Variables locales
+; Instructions
+	LOAD -5(LB), R1
+	BEQ Else.234
+	PUSH R0
+; return 
+	PUSH R2
+	LOAD -3(LB), R2
+	FLOAT -3(LB), R2
+	LOAD R2, R2
+	ADD -4(LB), R2
+	BOV overflow_error
+	PUSH R3
+	LOAD -2(LB), R3
+	LOAD R2, R2
+	ADD 2(R3), R2
+	BOV overflow_error
+	LOAD R2, R0
+	BRA fin.A.Method
+	BRA Fin.234
+Else.234:
+	PUSH R4
+	LOAD -2(LB), R4
+	LOAD 3(R4), R1
+	BEQ Else.269
+	PUSH R0
+; return 
+	PUSH R5
+	LOAD -3(LB), R5
+	FLOAT -3(LB), R5
+	PUSH R6
+	LOAD -2(LB), R6
+	PUSH R7
+	LOAD -4(LB), R7
+	MUL 2(R6), R7
+	BOV overflow_error
+	LOAD R5, R5
+	SUB R7, R5
+	POP R7
+	BOV overflow_error
+	LOAD R5, R0
+	BRA fin.A.Method
+	BRA Fin.269
+Else.269:
+	PUSH R0
+; return 
+	PUSH R8
+	LOAD -2(LB), R8
+	LOAD 2(R8), R0
+	BRA fin.A.Method
+Fin.269:
+Fin.234:
+	POP R8
+	POP R0
+	POP R6
+	POP R5
+	POP R0
+	POP R4
+	POP R3
+	POP R2
+	POP R0
+	SUBSP #0
+	WSTR "Erreur : sortie de la méthode <Method> sans return."
+	WNL
+	ERROR
+fin.A.Method:
+	RTS
+; ----------------------------------------
+;              Class B
+; ----------------------------------------
+init.B:
+	PUSH R0
+	PUSH R1
+	LOAD -2(LB), R0
+	LOAD #0x0.0p0, R1
+	STORE R1, 5(R0)
+	LOAD #0, R1
+	STORE R1, 6(R0)
+	PUSH R0
+	BSR init.A
+	POP R0
+	LOAD -2(LB), R0
+	PUSH R1
+	LOAD #0x1.5ce5p15, R1
+	STORE R1, 5(R0)
+	LOAD -2(LB), R0
+	LOAD -2(LB), R0
+	PUSH R1
+	LOAD #1, R1
+	STORE R1, 7(R0)
+	RTS
+; --------------Code de la méthode getNmbrOr
+code.B.getNmbrOr:
+	TSTO #6
+	BOV stack_overflow_error
+	ADDSP #0
+; Variables locales
+; Instructions
+	PUSH R0
+; return 
+	PUSH R2
+	LOAD #1, R2
+	ADD #5, R2
+	LOAD R2, R2
+	QUO #2, R2
+	LOAD R2, R0
+	BRA fin.B.getNmbrOr
+	POP R2
+	POP R0
+	SUBSP #0
+	WSTR "Erreur : sortie de la méthode <getNmbrOr> sans return."
+	WNL
+	ERROR
+fin.B.getNmbrOr:
+	RTS
+; ----------------------------------------
+;              Class C
+; ----------------------------------------
+init.C:
+	PUSH R0
+	PUSH R1
+	LOAD -2(LB), R0
+	LOAD #0x0.0p0, R1
+	STORE R1, 5(R0)
+	PUSH R0
+	BSR init.A
+	POP R0
+	LOAD -2(LB), R0
+	PUSH R1
+	LOAD #0x1.2d9168p-1, R1
+	STORE R1, 5(R0)
+	RTS
+; --------------Code de la méthode getNmbrOr
+code.C.getNmbrOr:
+	TSTO #4
+	BOV stack_overflow_error
+	ADDSP #0
+; Variables locales
+; Instructions
+	PUSH R0
+; return 
+	LOAD #0x1.6f0068p-10, R0
+	BRA fin.C.getNmbrOr
+	POP R0
+	SUBSP #0
+	WSTR "Erreur : sortie de la méthode <getNmbrOr> sans return."
+	WNL
+	ERROR
+fin.C.getNmbrOr:
+	RTS
+; --------------Code de la méthode Method
+code.C.Method:
+	TSTO #5
+	BOV stack_overflow_error
+	ADDSP #0
+; Variables locales
+; Instructions
+	PUSH R0
+; return 
+	PUSH R2
+	LOAD -2(LB), R2
+	PUSH R2
+; Method call : C.getNmbrOr
+	ADDSP #1
+; load de l'objet dans r
+	PUSH R3
+	LOAD -2(LB), R3
+	LOAD R3, R2
+; store l'objet dans 0(SP)
+	STORE R2, 0(SP)
+; store des parametres de la methodes dans -1(SP) ..... -n(SP)
+; Recuperation de l'objet qu'on a Store dnas 0(SP)
+	LOAD 0(SP), R2
+; On test si l'objet est null
+	CMP #null, R2
+	BEQ dereferencement_null
+; On récupère l’adresse de la table des méthodes
+	LOAD 0(R2), R2
+	BSR 5(R2)
+	SUBSP #1
+	POP R2
+	PUSH R4
+	LOAD 5(R2), R4
+	ADD R0, R4
+	POP R0
+	BOV overflow_error
+	LOAD R4, R0
+	BRA fin.C.Method
+	POP R2
+	POP R2
+	POP R0
+	SUBSP #0
+	WSTR "Erreur : sortie de la méthode <Method> sans return."
+	WNL
+	ERROR
+fin.C.Method:
+	RTS
+; --------------ERREUR OVERFLOW------------
+overflow_error:
+	WSTR "Error: Overflow during arithmetic operation"
+	WNL
+	ERROR
+; ------------ERREUR STACKOVERFLOW----------
+stack_overflow_error:
+	WSTR "Error: Stack Overflow"
+	WNL
+	ERROR
+; ------------ERREUR DEREFERENCEMENT----------
+dereferencement_null:
+	WSTR "Erreur : dereferencement de null"
+	WNL
+	ERROR
+; ------------ERREUR INPUT/OUTPUT----------
+IO_error:
+	WSTR "Erreur : Input/Output invalide."
+	WNL
+	ERROR
+; ------------ERREUR DE CAST----------
+cast_error:
+	WSTR "Erreur : Cast Incompatible"
+	WNL
+	ERROR

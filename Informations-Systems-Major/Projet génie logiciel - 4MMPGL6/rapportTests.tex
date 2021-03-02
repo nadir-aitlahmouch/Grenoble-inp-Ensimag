@@ -1,0 +1,294 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% LaTeX book template                           %%
+%% Author:  Amber Jain (http://amberj.devio.us/) %%
+%% License: ISC license                          %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[a4paper,11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Source: http://en.wikibooks.org/wiki/LaTeX/Hyperlinks %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage[french]{babel}
+
+\usepackage{listings}
+\usepackage{inconsolata}
+\usepackage{color}
+
+\definecolor{pblue}{rgb}{0.13,0.13,1}
+\definecolor{pgreen}{rgb}{0,0.5,0}
+\definecolor{pred}{rgb}{0.9,0,0}
+\definecolor{pgrey}{rgb}{0.46,0.45,0.48}
+
+
+\lstset{language=Java,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  breakatwhitespace=true,
+  commentstyle=\color{pgreen},
+  keywordstyle=\color{pblue},
+  stringstyle=\color{pred},
+  basicstyle=\ttfamily,
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 'dedication' environment: To add a dedication paragraph at the start of book %
+% Source: http://www.tug.org/pipermail/texhax/2010-June/015184.html            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newenvironment{dedication}
+{
+   \cleardoublepage
+   \thispagestyle{empty}
+   \vspace*{\stretch{1}}
+   \hfill\begin{minipage}[t]{0.66\textwidth}
+   \raggedright
+}
+{
+   \end{minipage}
+   \vspace*{\stretch{3}}
+   \clearpage
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Chapter quote at the start of chapter        %
+% Source: http://tex.stackexchange.com/a/53380 %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\makeatletter
+\renewcommand{\@chapapp}{}% Not necessary...
+\newenvironment{chapquote}[2][2em]
+  {\setlength{\@tempdima}{#1}%
+   \def\chapquote@author{#2}%
+   \parshape 1 \@tempdima \dimexpr\textwidth-2\@tempdima\relax%
+   \itshape}
+  {\par\normalfont\hfill--\ \chapquote@author\hspace*{\@tempdima}\par\bigskip}
+\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% First page of book which contains 'stuff' like: %
+%  - Book title, subtitle                         %
+%  - Book author name                             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Book's title and subtitle
+\title{\Huge \textbf{Rapport de Tests}   \\ \huge Projet GL }
+% Author
+\author{\textsc{* Groupe g3  | Equipe gl16 * \\
+ Ange Romuald Ossohou \\       
+ Nadir Ait Lahmouch \\        
+ Hamza Benjelloun  \\      
+ Oussama Fennane \\       
+ Younes Zaibila \\}}
+
+
+\begin{document}
+
+\frontmatter
+\maketitle
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Auto-generated table of contents, list of figures and list of tables %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\tableofcontents
+\mainmatter
+
+
+
+%%%%%%%%%%%%%%%%
+% NEW CHAPTER! %
+%%%%%%%%%%%%%%%%
+\newpage
+\section{Descriptif des tests}
+\noindent Le rendu comporte\\ 
+
+\noindent Des tests JUnit ajoutés aux répertoires:
+\begin{itemize}
+\item src/test/java/fr/ensimag/deca
+\item src/test/java/fr/ensimag/deca/context
+\item src/test/java/fr/ensimag/deca/syntax
+\item src/test/java/fr/ensimag/deca/tools
+\item src/test/java/fr/ensimag/deca/tree
+\end{itemize}
+
+\noindent Des tests deca ajoutés aux répertoires:
+\begin{itemize}
+\item src/test/deca/context/valid/added
+\item src/test/deca/context/invalid/added
+\item src/test/deca/syntax/valid/added
+\item src/test/deca/syntax/invalid/added
+\item src/test/deca/codegen/valid/added
+\item src/test/deca/codegen/invalid/
+\end{itemize}
+
+\noindent Des scripts :
+\begin{itemize}
+\item auto-cobetura.sh dans src/test/script
+\item auto-test.sh dans src/test/script/autotest
+\item decac.sh dans src/test/script/autotest
+\end{itemize}
+
+
+\subsection {Types de tests pour chaque étape/passe}
+\subsection {Organisation des tests}
+\subsection {Objectifs des tests, comment ces objectifs ont été atteints}
+\textbf{Tests unitaires:}
+\noindent On a créé une classe de test par classe existante à tester. Dans chaque classe de test, il y a une méthode par méthode à tester. 
+Dans les tests JUnit on a pas besoin de savoir exactement ce que vaut les paramètres des sous-classes situés dans un autre package que celui où on est maintenant. \\ En effet, grace aux frameworks de Mock, on peut générer automatiquement des objets 'mockés' sans utiliser l'opérateur 'new' pour créer un objet d'une sous-classe qu'on veut pas tester, et ceci par exemple en utilisant la méthode Mockito.mock(nomDeLaClasse.class). 
+
+\noindent Par exemple pour tester la méthode figurant dans FloatType.java du package fr.ensimag.deca.context:\\
+
+
+\begin{lstlisting}
+public boolean isFloat() {
+        return true;
+}
+\end{lstlisting}
+
+
+\textbf{}Ce qu'on doit vérifier est que la méthode renvoie true, pour ce, on crée une instance de la classe FloatType, le constructeur requiert une variable name de type SymbolTable.Symbol, pour la création d'une telle variable sans appeler l'opérateur 'new' on peut choisir d'appeler la méthode mock en écrivant à l'interieur de la fonction testIsFloat la ligne:
+\begin{lstlisting}
+SymbolTable.Symbol name = Mockito.mock(SymbolTable.Symbol.class);
+\end{lstlisting}
+\noindent ou rajouter l’annotation @Mock au dessus de la variable globale name pour les instances de classes.
+\begin{lstlisting}
+@Mock
+SymbolTable.Symbol name;
+\end{lstlisting}
+\noindent Pour la méthode sameType de la meme classe FloatType
+\begin{lstlisting}
+public boolean sameType(Type otherType) {
+        return otherType.isFloat();
+    }
+\end{lstlisting}
+\noindent on a besoin de vérifier que la méthode renvoie "true" si otherType.isFloat() et "false" sinon. \\ On peut donc prédire le résultat de la méthode sameType grace au « Stubbing » (ou Définition du comportement des objets mockés). On va indiquer à Mockito quelle valeur on souhaite retourner lorsque la méthode sameType() est invoquée, grace à la commande:
+\begin{lstlisting}
+when(otherType.isFloat()).thenReturn(Boolean.TRUE);
+\end{lstlisting}
+On peut s'assurer enfin que pour une instance de la classe FloatType, le résultat de la méthode sameType appliquée sur cette instance est "true" grace à l'assertion: 
+\begin{lstlisting}
+boolean result = instance.sameType(otherType);
+assertEquals(true, result);
+\end{lstlisting}
+
+\noindent Pour les méthodes:
+\begin{itemize}
+\item decompile
+\item iterChildren
+\item prettyPrintChildren
+\end{itemize}
+La couverture de ces méthodes est simple, il suffit de créer une instance de la classe qu'on veut tester et appliquer dessus une des trois méthodes ci dessus sans oublier de mocker les paramètres nécessaires pour la méthode. \\ Par exemple, pour la méthode decompile de la classe Selection :
+\begin{lstlisting}
+public void decompile(IndentPrintStream s) {
+        this.expr.decompile(s);
+        s.print(".");
+        this.ident.decompile(s);
+}
+\end{lstlisting}
+On peut faire le test suivant:
+\begin{lstlisting}
+public void testDecompile() {
+        System.out.println("decompile");
+        IndentPrintStream s = Mockito.mock(IndentPrintStream.class);
+        Selection instance = new Selection(expr, ident);
+        instance.decompile(s);
+}
+\end{lstlisting}
+Mais on peut également choisir de tester ligne par ligne à l'intérieur de la méthode decompile en utilisant verify qui vérifie que la méthode "print" a été appelée sur l'objet s de type IndentPrintStream et que la méthode "decompile" a été appelée sur les attributs expr et ident de la classe Selection avec comme paramètre l'objet s de type IndentPrintStream.
+\begin{lstlisting}
+public class SelectionTest {
+    @Mock
+    AbstractExpr expr;
+    @Mock
+    AbstractIdentifier ident;
+    @Before
+    public void setup() throws ContextualError {
+        MockitoAnnotations.initMocks(this);
+    }
+
+    /**
+     * Test of decompile method, of class Selection.
+     */
+    @Test
+    public void testDecompile() {
+        System.out.println("decompile");
+        IndentPrintStream s = Mockito.mock(IndentPrintStream.class);
+        Selection instance = new Selection(expr, ident);
+        instance.decompile(s);
+        verify(expr).decompile(s);
+        verify(s).print(".");
+        verify(ident).decompile(s);
+    }
+}
+\end{lstlisting}
+
+\noindent \textbf{Remarque:} Comme la première façon de tester la méthode decompile est plus rapide et suffisante pour couvrir la totalité de la méthode puisqu'il n'y a pas d'instructions if et donc on est sûr de tester toutes les méthodes à l'intérieur de la fonction decompile rien qu'en l'appliquant sur l'instance de la classe qu'on veut tester, alors c'est elle qu'on a choisi à la fin après avoir utilisé la deuxième façon pas mal de fois sur d'autres classes.
+
+
+\section{Les scripts de tests}
+\subsection{Etape A (syntax)}
+\noindent Le script auto-test.sh permet d'automatiser l'exécution de \textcolor{red}{\textbf{test\_synt}} sur l'ensemble des tests se trouvant dans src/test/deca/syntax/valid/added et src/test/deca/syntax/invalid/added, de générer un fichier \textcolor{red}{\textbf{.lis}} pour chaque fichier .deca considéré, contenant le résultat de l'exécution de l'exécutable et le stocker dans Projet\_GL/src/test/Autotest/syntTest/valid et \\Projet\_GL/src/test/Autotest/syntTest/invalid puis comparer ces résultats respectivement avec les résultats attendus des tests archivés à la base dans Projet\_GL/src/test/correcttest/syntax/valid et \\Projet\_GL/src/test/correcttest/syntax/invalid permettant donc en particulier de comparer systématiquement les résultats obtenus lorsque l’exécutable a été modifié. (\textcolor{red}{\textbf{tests de non régression}})
+\subsection{Etape B (contex)}
+Le script auto-test.sh permet d'automatiser l'exécution de \textcolor{red}{\textbf{test\_context}} sur l'ensemble des tests se trouvant dans src/test/deca/context/valid/added et src/test/deca/context/invalid/added, et de générer un fichier \textcolor{red}{\textbf{.lis}} interprétable par IMA pour chaque fichier .deca considéré, contenant le résultat de l'exécution de l'exécutable et le stocker dans \\Projet\_GL/src/test/Autotest/contextTest/valid et\\ Projet\_GL/src/test/Autotest/contextTest/invalid puis comparer ces résultats respectivement avec les résultats attendus des tests archivés à la base dans Projet\_GL/src/test/correcttest/contex/valid et \\Projet\_GL/src/test/correcttest/contex/invalid permettant donc en particulier de comparer systématiquement les résultats obtenus lorsque l’exécutable a été modifié.
+\subsection{Etape C (codeGen)}
+De même le script auto-test.sh permet d'automatiser l'exécution de \textcolor{red}{\textbf{decac}} sur l'ensemble des tests se trouvant dans src/test/deca/codegen/valid/added, et de générer un fichier \textcolor{red}{\textbf{.ass}} pour chaque fichier .deca considéré et le stocker dans Projet\_GL/src/test/Autotest/codeGenTest/valid puis comparer ces résultats avec les résultats attendus des tests archivés à la base dans Projet\_GL/src/test/correcttest/codeGen/valid permettant donc en particulier de comparer systématiquement les résultats obtenus lorsque l’exécutable a été modifié.
+
+
+\subsection{comment faire passer tous les tests}
+
+\noindent En plus, des tests évoqués ci dessus auto-test.sh permet également à la fin de tester les options en exécutant le fichier decac.sh se trouvant dans Projet\_GL/src/test/script/autotest. L'idée vient du fait que le test unitaire DecacMainTest.java du package fr.ensimag.deca ne peut pas couvrir tout le code de DecacMain.java car on a le droit de créer qu'une seule instance de classe DecacMain, du coup ayant déjà testé le maximum d'options possible dans le test unitaire avec une seule instance DecacMain avec le code ci-dessous:
+\begin{lstlisting}
+public class DecacMainTest {
+    @Test
+    public void testMainArgsp() throws Exception {
+        System.out.println("main");
+        String[] args = {"-p", "./src/test/deca/context/valid/added/and.deca", "-n", "-r ", "10", "./src/test/deca/context/valid/added/and.deca", "-b"};
+        DecacMain instance = new DecacMain();
+        instance.main(args);
+    }
+}
+\end{lstlisting}
+\noindent Il fallait également tester les cas où les options relèvent des exceptions d'où le fichier decac.sh qui teste toutes les combinaisons et permet de compléter la couverture de la classe DecacMain.\\\\
+
+\noindent Le fichier auto-cobetura.sh dans src/test/script permet d'executer tous les tests et inclure les tests unitaires et ouvrir le rapport de couverture à la fin en executant les commandes:
+\begin{itemize}
+\item \textbf{mvn clean} \quad                {\small \#Suppression des .class et des autres fichiers générés}
+\item \textbf{mvn compile} \quad              {\small \#Compilation du programme}
+\item \textbf{mvn test-compile} \quad          {\small \#Compilation des tests et du programme}
+\item \textbf{mvn test} \quad                 {\small \#Lancement des tests}
+\item \textbf{mvn cobertura:clean} \quad        {\small \#Pour éviter de mélanger les résultats des tests avec des tests précédents}
+\item \textbf{mvn cobertura:instrument} \quad   {\small \#Instrumenter les classes pour enregistrer la couverture.}
+\item \textbf{mvn cobertura:cobertura} \quad    {\small \#Instrumenter les classes, puis lancer les tests automatiques, puis générer un rapport de couverture dans target/site/cobertura/}
+\item \textbf{./src/test/script/autotest/auto-test.sh} \quad    
+\item \textbf{cobertura-report.sh} \quad    {\small \#Générer un rapport de couverture}
+\item \textbf{firefox target/site/cobertura/index.html \&}
+\end{itemize}
+
+
+\section{Gestion des risques et gestion des rendus}
+
+\section{Résultats de Cobertura}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{cobertura.png}
+    \caption{Rapport de couverture}
+    \label{fig:mesh1}
+\end{figure}
+
+
+
+\section{Méthodes de validation utilisées autres que le test}
+
+
+
+
+\end{document}
+

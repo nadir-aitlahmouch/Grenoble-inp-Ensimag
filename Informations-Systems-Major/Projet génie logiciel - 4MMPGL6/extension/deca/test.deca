@@ -1,0 +1,10 @@
+{
+int x = 3;
+if (x > 2){
+   println("lala");
+} else if (x < 5){
+println("lala 2");
+} else {
+println(x);
+}
+}

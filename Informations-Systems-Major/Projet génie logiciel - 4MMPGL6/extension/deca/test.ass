@@ -1,0 +1,49 @@
+; start main program
+; Main program
+	TSTO #0
+	BOV stack_overflow_error
+	ADDSP #1
+	ADDSP #1
+	LOAD #3, R0
+	STORE R0, 1(GB)
+; Beginning of main instructions:
+	LOAD 1(GB), R0
+	CMP #2, R0
+	BLE Else.30
+	WSTR "lala"
+	WNL
+	BRA Fin.30
+Else.30:
+	LOAD 1(GB), R0
+	CMP #5, R0
+	BGE Else.57
+	WSTR "lala 2"
+	WNL
+	BRA Fin.57
+Else.57:
+	LOAD 1(GB), R1
+	WINT
+	WNL
+Fin.57:
+Fin.30:
+	HALT
+; end main program
+; -> Declaration des classes
+code.Object.equals:
+fin.Object.equals:
+	RTS
+; --------------ERREUR OVERFLOW------------
+overflow_error:
+	WSTR "Error: Overflow during arithmetic operation"
+	WNL
+	ERROR
+; ------------ERREUR STACKOVERFLOW----------
+stack_overflow_error:
+	WSTR "Error: Stack Overflow"
+	WNL
+	ERROR
+; ------------ERREUR DEREFERENCEMENT----------
+dereferencement_null:
+	WSTR "Erreur : dereferencement de null"
+	WNL
+	ERROR

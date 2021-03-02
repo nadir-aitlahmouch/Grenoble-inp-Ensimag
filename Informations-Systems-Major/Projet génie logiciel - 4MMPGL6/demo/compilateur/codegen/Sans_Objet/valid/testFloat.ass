@@ -1,0 +1,127 @@
+; start main program
+; ----------------------------------------
+;              Table des méthodes
+; ----------------------------------------
+;         Construction des tables des methodes
+; Construction des tables des methodes de la classe Object
+	LOAD #null, R0
+	STORE R0, 1(GB)
+	LOAD code.Object.equals, R0
+	STORE R0, 2(GB)
+; ----------------------------------------
+;              Main Program
+; ----------------------------------------
+	TSTO #0
+	BOV stack_overflow_error
+	ADDSP #3
+	ADDSP #5
+; Beginning of main instructions:
+	LOAD #37, R0
+	STORE R0, 5(GB)
+	LOAD #842, R0
+	STORE R0, 6(GB)
+	LOAD #23328, R0
+	STORE R0, 7(GB)
+	LOAD #0x1.8e1c28p8, R0
+	STORE R0, 3(GB)
+	LOAD #0x1.d8c38ep11, R0
+	STORE R0, 4(GB)
+	LOAD 3(GB), R0
+	MUL 4(GB), R0
+	BOV overflow_error
+	LOAD R0, R1
+	WFLOAT
+	WNL
+	LOAD 6(GB), R1
+	MUL 6(GB), R1
+	LOAD R1, R1
+	MUL 6(GB), R1
+	LOAD R1, R2
+	FLOAT R1, R2
+	LOAD R2, R2
+	ADD 3(GB), R2
+	BOV overflow_error
+	LOAD R2, R2
+	ADD 4(GB), R2
+	BOV overflow_error
+	LOAD 7(GB), R3
+	MUL #4, R3
+	LOAD R3, R4
+	FLOAT R3, R4
+	LOAD R2, R2
+	ADD R4, R2
+	BOV overflow_error
+	LOAD R2, R1
+	WFLOAT
+	WNL
+	LOAD 5(GB), R4
+	SUB #12, R4
+	LOAD R4, R5
+	FLOAT R4, R5
+	LOAD R5, R5
+	ADD 3(GB), R5
+	BOV overflow_error
+	LOAD #534, R6
+	FLOAT #534, R6
+	LOAD 4(GB), R7
+	MUL R6, R7
+	BOV overflow_error
+	LOAD R5, R5
+	ADD R7, R5
+	BOV overflow_error
+	LOAD R5, R1
+	WFLOAT
+	WNL
+	LOAD 3(GB), R7
+	OPP 3(GB), R7
+	LOAD R7, R1
+	WFLOAT
+	WNL
+	HALT
+; end main program
+; -> Declaration des classes
+; ----------------------------------------
+;              Class Object
+; ----------------------------------------
+init.Object:
+	RTS
+code.Object.equals:
+	TSTO #2
+; Sauvegarde de registres
+	PUSH R2
+	PUSH R3
+; Test de comparaison
+	LOAD -2(LB), R2
+	LOAD -3(LB), R3
+	CMP R2, R3
+	SEQ R0
+; Restauration des registres
+	POP R3
+	POP R2
+fin.Object.equals:
+	RTS
+; --------------ERREUR OVERFLOW------------
+overflow_error:
+	WSTR "Error: Overflow during arithmetic operation"
+	WNL
+	ERROR
+; ------------ERREUR STACKOVERFLOW----------
+stack_overflow_error:
+	WSTR "Error: Stack Overflow"
+	WNL
+	ERROR
+; ------------ERREUR DEREFERENCEMENT----------
+dereferencement_null:
+	WSTR "Erreur : dereferencement de null"
+	WNL
+	ERROR
+; ------------ERREUR INPUT/OUTPUT----------
+IO_error:
+	WSTR "Erreur : Input/Output invalide."
+	WNL
+	ERROR
+; ------------ERREUR DE CAST----------
+cast_error:
+	WSTR "Erreur : Cast Incompatible"
+	WNL
+	ERROR

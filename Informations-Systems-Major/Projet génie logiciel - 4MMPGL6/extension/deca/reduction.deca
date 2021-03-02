@@ -1,0 +1,11 @@
+{
+     float x = 87565;
+     float pi = 3.1415926f;
+     float reste_pi = 1.509957E-7f;
+     float f = x/pi;
+     float n = 0;
+     while(n <= f){
+       n = n + 1;
+     }
+     print(f-n*pi - n*reste_pi);
+ }

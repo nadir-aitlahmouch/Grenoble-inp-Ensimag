@@ -1,0 +1,1226 @@
+; start main program
+;         Construction des tables des methodes
+; Construction des tables des methodes de la classe Object
+	LOAD #null, R0
+	STORE R0, 1(GB)
+	LOAD code.Object.equals, R0
+	STORE R0, 2(GB)
+; Construction des tables des methodes de la classe Math
+	LEA 1(GB), R0
+	STORE R0, 3(GB)
+	LOAD code.Object.equals, R0
+	STORE R0, 4(GB)
+	LOAD code.Math._puissance, R0
+	STORE R0, 5(GB)
+	LOAD code.Math._reduce, R0
+	STORE R0, 6(GB)
+	LOAD code.Math.cos, R0
+	STORE R0, 7(GB)
+	LOAD code.Math.sin, R0
+	STORE R0, 8(GB)
+	LOAD code.Math.Ulp, R0
+	STORE R0, 9(GB)
+	LOAD code.Math._sqrt, R0
+	STORE R0, 10(GB)
+	LOAD code.Math._atanNear0, R0
+	STORE R0, 11(GB)
+	LOAD code.Math._atanPositive, R0
+	STORE R0, 12(GB)
+	LOAD code.Math.atan, R0
+	STORE R0, 13(GB)
+	LOAD code.Math._asinPositive, R0
+	STORE R0, 14(GB)
+	LOAD code.Math.asin, R0
+	STORE R0, 15(GB)
+; Main program
+	TSTO #0
+	BOV stack_overflow_error
+	ADDSP #16
+	ADDSP #3
+	NEW #8, R0
+	BOV stack_overflow_error
+	LEA 3(GB), R1
+	STORE R1, 0(R0)
+	PUSH R0
+	BSR init.Math
+	POP R0
+	LOAD R0, R1
+	STORE R1, 16(GB)
+	LOAD #10000, R1
+	OPP #10000, R1
+	LOAD R1, R2
+	STORE R2, 17(GB)
+	LOAD #0x0.0p0, R2
+	STORE R2, 18(GB)
+; Beginning of main instructions:
+	BRA WhileCondition.2412
+WhileDebut.2412:
+	LOAD 18(GB), R0
+	ADD #0x1.0624dep-10, R0
+	BOV overflow_error
+	STORE R0, 18(GB)
+; Method call : Math.sin
+	ADDSP #2
+; load de l'objet dans r
+	LOAD 16(GB), R2
+; store l'objet dans 0(SP)
+	STORE R2, 0(SP)
+; store des parametres de la methodes dans -1(SP) ..... -n(SP)
+	LOAD 18(GB), R2
+	STORE R2, -1(SP)
+; Recuperation de l'objet qu'on a Store dnas 0(SP)
+	LOAD 0(SP), R2
+; On test si l'objet est null
+	CMP #null, R2
+	BEQ dereferencement_null
+; On récupère l’adresse de la table des méthodes
+	LOAD 0(R2), R2
+	BSR 5(R2)
+	SUBSP #2
+	LOAD R0, R1
+	WFLOAT
+	WNL
+	LOAD 17(GB), R0
+	ADD #1, R0
+	STORE R0, 17(GB)
+WhileCondition.2412:
+	LOAD 17(GB), R0
+	CMP #10000, R0
+	BLT WhileDebut.2412
+	HALT
+; end main program
+; -> Declaration des classes
+; ----------------------------------------
+;              Class Object
+; ----------------------------------------
+init.Object:
+	RTS
+code.Object.equals:
+	TSTO #2
+; Sauvegarde de registres
+	PUSH R2
+	PUSH R3
+; Test de comparaison
+	LOAD -2(LB), R2
+	LOAD -3(LB), R3
+	CMP R2, R3
+	SEQ R0
+; Restauration des registres
+	POP R2
+	POP R3
+fin.Object.equals:
+	RTS
+; ----------------------------------------
+;              Class Math
+; ----------------------------------------
+init.Math:
+	LOAD -2(LB), R0
+	LOAD #0x0.0p0, R1
+	STORE R1, 1(R0)
+	LOAD #0x0.0p0, R1
+	STORE R1, 2(R0)
+	LOAD #0x0.0p0, R1
+	STORE R1, 3(R0)
+	LOAD #0x0.0p0, R1
+	STORE R1, 4(R0)
+	LOAD #0x0.0p0, R1
+	STORE R1, 5(R0)
+	LOAD #0x0.0p0, R1
+	STORE R1, 6(R0)
+	LOAD #0x0.0p0, R1
+	STORE R1, 7(R0)
+	LOAD -2(LB), R0
+	LOAD #0x0.000002p-126, R2
+	STORE R2, 1(R0)
+	LOAD -2(LB), R0
+	LOAD #0x1.fffffep127, R3
+	STORE R3, 2(R0)
+	LOAD #1, R4
+	FLOAT #1, R4
+	LOAD -2(LB), R0
+	LOAD R4, R5
+	STORE R5, 3(R0)
+	LOAD -2(LB), R0
+	LOAD #0x1.921fb4p1, R6
+	STORE R6, 4(R0)
+	LOAD -2(LB), R0
+	LOAD #0x1.4442c4p-23, R7
+	STORE R7, 5(R0)
+	LOAD -2(LB), R0
+	LOAD #0x1.921fb6p-1, R8
+	STORE R8, 6(R0)
+	LOAD -2(LB), R0
+	LOAD #0x1.921fb6p0, R9
+	STORE R9, 7(R0)
+	RTS
+; --------------Code de la méthode _puissance
+code.Math._puissance:
+	TSTO #0
+	BOV stack_overflow_error
+	ADDSP #0
+; Variables locales
+; Instructions
+	BRA WhileCondition.112
+WhileDebut.112:
+	LOAD -2(LB), R0
+	LOAD -2(LB), R1
+	LOAD 3(R1), R2
+	MUL -3(LB), R2
+	BOV overflow_error
+	STORE R2, 3(R0)
+	LOAD -4(LB), R0
+	SUB #1, R0
+	STORE R0, -4(LB)
+WhileCondition.112:
+	LOAD -4(LB), R0
+	CMP #0, R0
+	BGT WhileDebut.112
+; return 
+	LOAD -2(LB), R1
+	LOAD 3(R1), R0
+	BRA fin.Math._puissance
+	SUBSP #0
+	WSTR "Erreur : sortie de la méthode <_puissance> sans return."
+	WNL
+	ERROR
+fin.Math._puissance:
+	RTS
+; --------------Code de la méthode _reduce
+code.Math._reduce:
+	TSTO #2
+	BOV stack_overflow_error
+	ADDSP #2
+; Variables locales
+	PUSH R2
+	LOAD -2(LB), R2
+	PUSH R3
+	LOAD -3(LB), R3
+	DIV 4(R2), R3
+	BOV overflow_error
+	PUSH R4
+	INT R3, R4
+	PUSH R5
+	LOAD R4, R5
+	STORE R5, 1(LB)
+	POP R5
+	PUSH R6
+	LOAD 1(LB), R6
+	FLOAT 1(LB), R6
+	PUSH R7
+	LOAD -2(LB), R7
+	LOAD R6, R6
+	MUL 4(R7), R6
+	BOV overflow_error
+	PUSH R8
+	LOAD -3(LB), R8
+	SUB R6, R8
+	POP R6
+	BOV overflow_error
+	PUSH R9
+	LOAD 1(LB), R9
+	FLOAT 1(LB), R9
+	PUSH R10
+	LOAD -2(LB), R10
+	LOAD R9, R9
+	MUL 5(R10), R9
+	BOV overflow_error
+	LOAD R8, R8
+	SUB R9, R8
+	POP R9
+	BOV overflow_error
+	PUSH R11
+	LOAD R8, R11
+	STORE R11, 2(LB)
+	POP R11
+; Instructions
+	PUSH R12
+	LOAD 1(LB), R12
+	REM #2, R12
+	LOAD R12, R12
+	CMP #0, R12
+	BNE Else.234
+; return 
+	LOAD 2(LB), R0
+	BRA fin.Math._reduce
+	BRA Fin.234
+Else.234:
+; return 
+	LOAD 2(LB), R0
+	OPP 2(LB), R0
+	LOAD R0, R0
+	BRA fin.Math._reduce
+Fin.234:
+	SUBSP #2
+	WSTR "Erreur : sortie de la méthode <_reduce> sans return."
+	WNL
+	ERROR
+fin.Math._reduce:
+	RTS
+; --------------Code de la méthode cos
+code.Math.cos:
+	TSTO #5
+	BOV stack_overflow_error
+	ADDSP #5
+; Variables locales
+	PUSH R2
+	LOAD -2(LB), R2
+	PUSH R3
+	LOAD -3(LB), R3
+	DIV 4(R2), R3
+	BOV overflow_error
+	PUSH R4
+	INT R3, R4
+	PUSH R5
+	LOAD R4, R5
+	STORE R5, 2(LB)
+	POP R5
+	PUSH R6
+	LOAD #0, R6
+	STORE R6, 3(LB)
+	POP R6
+	PUSH R7
+	LOAD #1, R7
+	FLOAT #1, R7
+	PUSH R8
+	LOAD R7, R8
+	STORE R8, 4(LB)
+	POP R8
+	PUSH R9
+	LOAD #1, R9
+	FLOAT #1, R9
+	PUSH R10
+	LOAD R9, R10
+	STORE R10, 5(LB)
+	POP R10
+; Instructions
+	PUSH R11
+	LOAD #0, R11
+	FLOAT #0, R11
+	PUSH R12
+	LOAD -3(LB), R12
+	CMP R11, R12
+	BGE Else.378
+; return 
+; Method call : Math.cos
+	ADDSP #2
+; load de l'objet dans r
+	LOAD -2(LB), R0
+	LOAD R0, R2
+; store l'objet dans 0(SP)
+	STORE R2, 0(SP)
+; store des parametres de la methodes dans -1(SP) ..... -n(SP)
+	LOAD -3(LB), R1
+	OPP -3(LB), R1
+	LOAD R1, R2
+	STORE R2, -1(SP)
+; Recuperation de l'objet qu'on a Store dnas 0(SP)
+	LOAD 0(SP), R2
+; On test si l'objet est null
+	CMP #null, R2
+	BEQ dereferencement_null
+; On récupère l’adresse de la table des méthodes
+	LOAD 0(R2), R2
+	BSR 4(R2)
+	SUBSP #2
+	LOAD R0, R0
+	BRA fin.Math.cos
+	BRA Fin.378
+Else.378:
+	LOAD #0, R0
+	FLOAT #0, R0
+	LOAD -3(LB), R1
+	CMP R0, R1
+	BNE Else.4013
+; return 
+	LOAD #0x1.0p0, R0
+	BRA fin.Math.cos
+	BRA Fin.4013
+Else.4013:
+	LOAD -2(LB), R0
+	LOAD -3(LB), R1
+	CMP 4(R0), R1
+	BLE Else.4313
+; Method call : Math._reduce
+	ADDSP #2
+; load de l'objet dans r
+	LOAD -2(LB), R0
+	LOAD R0, R2
+; store l'objet dans 0(SP)
+	STORE R2, 0(SP)
+; store des parametres de la methodes dans -1(SP) ..... -n(SP)
+	LOAD -3(LB), R2
+	STORE R2, -1(SP)
+; Recuperation de l'objet qu'on a Store dnas 0(SP)
+	LOAD 0(SP), R2
+; On test si l'objet est null
+	CMP #null, R2
+	BEQ dereferencement_null
+; On récupère l’adresse de la table des méthodes
+	LOAD 0(R2), R2
+	BSR 3(R2)
+	SUBSP #2
+	STORE R0, 1(LB)
+	BRA Fin.4313
+Else.4313:
+	LOAD -3(LB), R0
+	STORE R0, 1(LB)
+Fin.4313:
+Fin.4013:
+Fin.378:
+	BRA WhileCondition.498
+WhileDebut.498:
+	LOAD 4(LB), R0
+	OPP 4(LB), R0
+	LOAD 1(LB), R1
+	MUL 1(LB), R1
+	BOV overflow_error
+	LOAD R0, R0
+	MUL R1, R0
+	BOV overflow_error
+	LOAD #2, R1
+	MUL 3(LB), R1
+	LOAD R1, R1
+	ADD #1, R1
+	LOAD #2, R2
+	MUL 3(LB), R2
+	LOAD R2, R2
+	ADD #2, R2
+	LOAD R1, R1
+	MUL R2, R1
+	LOAD R1, R2
+	FLOAT R1, R2
+	LOAD R0, R0
+	DIV R2, R0
+	BOV overflow_error
+	STORE R0, 4(LB)
+	LOAD 3(LB), R0
+	ADD #1, R0
+	STORE R0, 3(LB)
+	LOAD 5(LB), R0
+	ADD 4(LB), R0
+	BOV overflow_error
+	STORE R0, 5(LB)
+WhileCondition.498:
+	LOAD 3(LB), R0
+	CMP #64, R0
+	BLT WhileDebut.498
+; return 
+; Method call : Math._puissance
+	ADDSP #3
+; load de l'objet dans r
+	LOAD -2(LB), R1
+	LOAD R1, R2
+; store l'objet dans 0(SP)
+	STORE R2, 0(SP)
+; store des parametres de la methodes dans -1(SP) ..... -n(SP)
+	LOAD #0x1.0p0, R2
+	OPP #0x1.0p0, R2
+	LOAD R2, R2
+	STORE R2, -1(SP)
+	LOAD 2(LB), R2
+	STORE R2, -2(SP)
+; Recuperation de l'objet qu'on a Store dnas 0(SP)
+	LOAD 0(SP), R2
+; On test si l'objet est null
+	CMP #null, R2
+	BEQ dereferencement_null
+; On récupère l’adresse de la table des méthodes
+	LOAD 0(R2), R2
+	BSR 2(R2)
+	SUBSP #3
+	LOAD R0, R0
+	MUL 5(LB), R0
+	BOV overflow_error
+	LOAD R0, R0
+	BRA fin.Math.cos
+	SUBSP #5
+	WSTR "Erreur : sortie de la méthode <cos> sans return."
+	WNL
+	ERROR
+fin.Math.cos:
+	RTS
+; --------------Code de la méthode sin
+code.Math.sin:
+	TSTO #8
+	BOV stack_overflow_error
+	ADDSP #2
+; Variables locales
+	PUSH R2
+	LOAD -2(LB), R2
+	PUSH R3
+	LOAD -3(LB), R3
+	SUB 7(R2), R3
+	BOV overflow_error
+	PUSH R4
+	LOAD R3, R4
+	STORE R4, 1(LB)
+	POP R4
+	PUSH R2
+; Method call : Math.cos
+	ADDSP #2
+; load de l'objet dans r
+	PUSH R5
+	LOAD -2(LB), R5
+	LOAD R5, R2
+; store l'objet dans 0(SP)
+	STORE R2, 0(SP)
+; store des parametres de la methodes dans -1(SP) ..... -n(SP)
+	LOAD 1(LB), R2
+	STORE R2, -1(SP)
+; Recuperation de l'objet qu'on a Store dnas 0(SP)
+	LOAD 0(SP), R2
+; On test si l'objet est null
+	CMP #null, R2
+	BEQ dereferencement_null
+; On récupère l’adresse de la table des méthodes
+	LOAD 0(R2), R2
+	BSR 4(R2)
+	SUBSP #2
+	POP R2
+	PUSH R6
+	LOAD R0, R6
+	STORE R6, 2(LB)
+	POP R6
+; Instructions
+; return 
+	LOAD 2(LB), R0
+	BRA fin.Math.sin
+	POP R5
+	POP R3
+	POP R2
+	SUBSP #2
+	WSTR "Erreur : sortie de la méthode <sin> sans return."
+	WNL
+	ERROR
+fin.Math.sin:
+	RTS
+; --------------Code de la méthode Ulp
+code.Math.Ulp:
+	TSTO #4
+	BOV stack_overflow_error
+	ADDSP #4
+; Variables locales
+	PUSH R2
+	LOAD #0, R2
+	STORE R2, 1(LB)
+	POP R2
+	PUSH R3
+	LOAD #2, R3
+	FLOAT #2, R3
+	PUSH R4
+	LOAD R3, R4
+	STORE R4, 2(LB)
+	POP R4
+	PUSH R5
+	LOAD #1, R5
+	FLOAT #1, R5
+	PUSH R6
+	LOAD R5, R6
+	STORE R6, 4(LB)
+	POP R6
+; Instructions
+	PUSH R7
+	LOAD -3(LB), R7
+	CMP #0x0.0p0, R7
+	BGE Else.732
+	LOAD -3(LB), R0
+	OPP -3(LB), R0
+	STORE R0, -3(LB)
+Else.732:
+Fin.732:
+	LOAD -3(LB), R0
+	CMP #0x1.0p0, R0
+	BLT Else.772
+	LOAD 1(LB), R0
+	SUB #1, R0
+	STORE R0, 1(LB)
+	BRA WhileCondition.804
+WhileDebut.804:
+	LOAD #2, R0
+	FLOAT #2, R0
+	LOAD -3(LB), R1
+	DIV R0, R1
+	BOV overflow_error
+	STORE R1, -3(LB)
+	LOAD 1(LB), R0
+	ADD #1, R0
+	STORE R0, 1(LB)
+WhileCondition.804:
+	LOAD -3(LB), R0
+	CMP #0x1.0p0, R0
+	BGE WhileDebut.804
+	BRA Fin.772
+Else.772:
+	LOAD -3(LB), R0
+	CMP #0x0.0p0, R0
+	BLE Else.857
+	LOAD -3(LB), R1
+	CMP #0x1.0p0, R1
+	BGE Else.857
+	BRA WhileCondition.864
+WhileDebut.864:
+	LOAD #2, R0
+	FLOAT #2, R0
+	LOAD -3(LB), R1
+	MUL R0, R1
+	BOV overflow_error
+	STORE R1, -3(LB)
+	LOAD 1(LB), R0
+	SUB #1, R0
+	STORE R0, 1(LB)
+WhileCondition.864:
+	LOAD -3(LB), R0
+	CMP #0x1.0p0, R0
+	BLE WhileDebut.864
+Else.857:
+Fin.857:
+Fin.772:
+	LOAD 1(LB), R1
+	SUB #23, R1
+	STORE R1, 3(LB)
+	LOAD 3(LB), R1
+	CMP #0, R1
+	BGE Else.932
+	LOAD #1, R0
+	FLOAT #1, R0
+	LOAD R0, R0
+	DIV 2(LB), R0
+	BOV overflow_error
+	STORE R0, 2(LB)
+	LOAD 3(LB), R0
+	OPP 3(LB), R0
+	STORE R0, 3(LB)
+	BRA WhileCondition.966
+WhileDebut.966:
+	LOAD 4(LB), R0
+	MUL 2(LB), R0
+	BOV overflow_error
+	STORE R0, 4(LB)
+	LOAD 3(LB), R0
+	SUB #1, R0
+	STORE R0, 3(LB)
+WhileCondition.966:
+	LOAD 3(LB), R0
+	CMP #0, R0
+	BGT WhileDebut.966
+	BRA Fin.932
+Else.932:
+	BRA WhileCondition.1036
+WhileDebut.1036:
+	LOAD 4(LB), R0
+	MUL 2(LB), R0
+	BOV overflow_error
+	STORE R0, 4(LB)
+	LOAD 3(LB), R0
+	SUB #1, R0
+	STORE R0, 3(LB)
+WhileCondition.1036:
+	LOAD 3(LB), R0
+	CMP #0, R0
+	BGT WhileDebut.1036
+Fin.932:
+; return 
+	LOAD 4(LB), R0
+	BRA fin.Math.Ulp
+	SUBSP #4
+	WSTR "Erreur : sortie de la méthode <Ulp> sans return."
+	WNL
+	ERROR
+fin.Math.Ulp:
+	RTS
+; --------------Code de la méthode _sqrt
+code.Math._sqrt:
+	TSTO #3
+	BOV stack_overflow_error
+	ADDSP #3
+; Variables locales
+	PUSH R2
+	LOAD #1, R2
+	STORE R2, 1(LB)
+	POP R2
+	PUSH R3
+	LOAD #1, R3
+	FLOAT #1, R3
+	PUSH R4
+	LOAD R3, R4
+	STORE R4, 2(LB)
+	POP R4
+	PUSH R5
+	LOAD #1, R5
+	FLOAT #1, R5
+	PUSH R6
+	LOAD R5, R6
+	STORE R6, 3(LB)
+	POP R6
+; Instructions
+	BRA WhileCondition.1164
+WhileDebut.1164:
+	LOAD 1(LB), R0
+	FLOAT 1(LB), R0
+	LOAD -3(LB), R1
+	DIV R0, R1
+	BOV overflow_error
+	LOAD 2(LB), R0
+	MUL R1, R0
+	BOV overflow_error
+	LOAD 1(LB), R1
+	SUB #1, R1
+	LOAD R1, R2
+	FLOAT R1, R2
+	LOAD #0x1.0p-1, R3
+	SUB R2, R3
+	BOV overflow_error
+	LOAD R0, R0
+	MUL R3, R0
+	BOV overflow_error
+	STORE R0, 2(LB)
+	LOAD 3(LB), R0
+	ADD 2(LB), R0
+	BOV overflow_error
+	STORE R0, 3(LB)
+	LOAD 1(LB), R0
+	ADD #1, R0
+	STORE R0, 1(LB)
+WhileCondition.1164:
+	LOAD 1(LB), R0
+	CMP #64000, R0
+	BLT WhileDebut.1164
+; return 
+	LOAD 3(LB), R0
+	BRA fin.Math._sqrt
+	SUBSP #3
+	WSTR "Erreur : sortie de la méthode <_sqrt> sans return."
+	WNL
+	ERROR
+fin.Math._sqrt:
+	RTS
+; --------------Code de la méthode _atanNear0
+code.Math._atanNear0:
+	TSTO #25
+	BOV stack_overflow_error
+	ADDSP #9
+; Variables locales
+	PUSH R2
+	LOAD #4, R2
+	OPP #4, R2
+	PUSH R3
+	LOAD R2, R3
+	FLOAT R2, R3
+	PUSH R4
+	LOAD R3, R4
+	STORE R4, 1(LB)
+	POP R4
+	PUSH R5
+	LOAD #40, R5
+	FLOAT #40, R5
+	PUSH R6
+	LOAD R5, R6
+	STORE R6, 2(LB)
+	POP R6
+	PUSH R7
+	LOAD #105, R7
+	FLOAT #105, R7
+	PUSH R8
+	LOAD R7, R8
+	STORE R8, 3(LB)
+	POP R8
+	PUSH R9
+	LOAD #75, R9
+	FLOAT #75, R9
+	PUSH R10
+	LOAD R9, R10
+	STORE R10, 4(LB)
+	POP R10
+	PUSH R11
+	LOAD #105, R11
+	FLOAT #105, R11
+	PUSH R12
+	LOAD R11, R12
+	STORE R12, 5(LB)
+	POP R12
+; Instructions
+	PUSH R13
+	LOAD -3(LB), R13
+	MUL -3(LB), R13
+	BOV overflow_error
+	STORE R13, 6(LB)
+	POP R13
+	PUSH R14
+	LOAD 1(LB), R14
+	MUL 6(LB), R14
+	BOV overflow_error
+	LOAD R14, R14
+	ADD 2(LB), R14
+	BOV overflow_error
+	LOAD R14, R14
+	MUL 6(LB), R14
+	BOV overflow_error
+	LOAD R14, R14
+	ADD 3(LB), R14
+	BOV overflow_error
+	STORE R14, 8(LB)
+	POP R14
+	PUSH R0
+	LOAD 4(LB), R0
+	MUL 6(LB), R0
+	BOV overflow_error
+	LOAD R0, R0
+	ADD 5(LB), R0
+	BOV overflow_error
+	STORE R0, 9(LB)
+	POP R0
+	PUSH R2
+	LOAD 8(LB), R2
+	DIV 9(LB), R2
+	BOV overflow_error
+	PUSH R3
+	LOAD -3(LB), R3
+	MUL R2, R3
+	POP R2
+	BOV overflow_error
+	STORE R3, 7(LB)
+	POP R3
+; return 
+	LOAD 7(LB), R0
+	BRA fin.Math._atanNear0
+	POP R11
+	POP R9
+	POP R7
+	POP R5
+	POP R3
+	POP R2
+	SUBSP #9
+	WSTR "Erreur : sortie de la méthode <_atanNear0> sans return."
+	WNL
+	ERROR
+fin.Math._atanNear0:
+	RTS
+; --------------Code de la méthode _atanPositive
+code.Math._atanPositive:
+	TSTO #5
+	BOV stack_overflow_error
+	ADDSP #5
+; Variables locales
+	PUSH R2
+	LOAD #0x1.3504f4p1, R2
+	STORE R2, 1(LB)
+	POP R2
+	PUSH R3
+	LOAD #0x1.a8279ap-2, R3
+	STORE R3, 2(LB)
+	POP R3
+; Instructions
+	PUSH R4
+	LOAD -3(LB), R4
+	CMP 2(LB), R4
+	BGE Else.1614
+	LOAD -3(LB), R0
+	STORE R0, 3(LB)
+	LOAD #0, R0
+	FLOAT #0, R0
+	STORE R0, 4(LB)
+	LOAD #1, R0
+	FLOAT #1, R0
+	STORE R0, 5(LB)
+	BRA Fin.1614
+Else.1614:
+	LOAD -3(LB), R0
+	CMP 1(LB), R0
+	BLE Else.1669
+	LOAD #1, R0
+	FLOAT #1, R0
+	LOAD R0, R0
+	DIV -3(LB), R0
+	BOV overflow_error
+	STORE R0, 3(LB)
+	LOAD -2(LB), R0
+	LOAD 7(R0), R1
+	STORE R1, 4(LB)
+	LOAD #1, R0
+	OPP #1, R0
+	LOAD R0, R1
+	FLOAT R0, R1
+	STORE R1, 5(LB)
+	BRA Fin.1669
+Else.1669:
+	LOAD #1, R0
+	FLOAT #1, R0
+	LOAD -3(LB), R1
+	SUB R0, R1
+	BOV overflow_error
+	LOAD #1, R0
+	FLOAT #1, R0
+	LOAD -3(LB), R2
+	ADD R0, R2
+	BOV overflow_error
+	LOAD R1, R1
+	DIV R2, R1
+	BOV overflow_error
+	STORE R1, 3(LB)
+	LOAD -2(LB), R0
+	LOAD 6(R0), R1
+	STORE R1, 4(LB)
+	LOAD #1, R0
+	FLOAT #1, R0
+	STORE R0, 5(LB)
+Fin.1669:
+Fin.1614:
+; return 
+; Method call : Math._atanNear0
+	ADDSP #2
+; load de l'objet dans r
+	LOAD -2(LB), R0
+	LOAD R0, R2
+; store l'objet dans 0(SP)
+	STORE R2, 0(SP)
+; store des parametres de la methodes dans -1(SP) ..... -n(SP)
+	LOAD 3(LB), R2
+	STORE R2, -1(SP)
+; Recuperation de l'objet qu'on a Store dnas 0(SP)
+	LOAD 0(SP), R2
+; On test si l'objet est null
+	CMP #null, R2
+	BEQ dereferencement_null
+; On récupère l’adresse de la table des méthodes
+	LOAD 0(R2), R2
+	BSR 8(R2)
+	SUBSP #2
+	LOAD 5(LB), R2
+	MUL R0, R2
+	BOV overflow_error
+	LOAD 4(LB), R0
+	ADD R2, R0
+	BOV overflow_error
+	LOAD R0, R0
+	BRA fin.Math._atanPositive
+	SUBSP #5
+	WSTR "Erreur : sortie de la méthode <_atanPositive> sans return."
+	WNL
+	ERROR
+fin.Math._atanPositive:
+	RTS
+; --------------Code de la méthode atan
+code.Math.atan:
+	TSTO #0
+	BOV stack_overflow_error
+	ADDSP #0
+; Variables locales
+; Instructions
+	PUSH R2
+	LOAD #0, R2
+	FLOAT #0, R2
+	PUSH R3
+	LOAD -3(LB), R3
+	CMP R2, R3
+	BGE Else.1822
+; return 
+; Method call : Math._atanPositive
+	ADDSP #2
+; load de l'objet dans r
+	LOAD -2(LB), R0
+	LOAD R0, R2
+; store l'objet dans 0(SP)
+	STORE R2, 0(SP)
+; store des parametres de la methodes dans -1(SP) ..... -n(SP)
+	LOAD -3(LB), R1
+	OPP -3(LB), R1
+	LOAD R1, R2
+	STORE R2, -1(SP)
+; Recuperation de l'objet qu'on a Store dnas 0(SP)
+	LOAD 0(SP), R2
+; On test si l'objet est null
+	CMP #null, R2
+	BEQ dereferencement_null
+; On récupère l’adresse de la table des méthodes
+	LOAD 0(R2), R2
+	BSR 9(R2)
+	SUBSP #2
+	LOAD R0, R2
+	OPP R0, R2
+	LOAD R2, R0
+	BRA fin.Math.atan
+	BRA Fin.1822
+Else.1822:
+; return 
+; Method call : Math._atanPositive
+	ADDSP #2
+; load de l'objet dans r
+	LOAD -2(LB), R0
+	LOAD R0, R2
+; store l'objet dans 0(SP)
+	STORE R2, 0(SP)
+; store des parametres de la methodes dans -1(SP) ..... -n(SP)
+	LOAD -3(LB), R2
+	STORE R2, -1(SP)
+; Recuperation de l'objet qu'on a Store dnas 0(SP)
+	LOAD 0(SP), R2
+; On test si l'objet est null
+	CMP #null, R2
+	BEQ dereferencement_null
+; On récupère l’adresse de la table des méthodes
+	LOAD 0(R2), R2
+	BSR 9(R2)
+	SUBSP #2
+	LOAD R0, R0
+	BRA fin.Math.atan
+Fin.1822:
+	SUBSP #0
+	WSTR "Erreur : sortie de la méthode <atan> sans return."
+	WNL
+	ERROR
+fin.Math.atan:
+	RTS
+; --------------Code de la méthode _asinPositive
+code.Math._asinPositive:
+	TSTO #10
+	BOV stack_overflow_error
+	ADDSP #10
+; Variables locales
+	PUSH R2
+	LOAD #61, R2
+	FLOAT #61, R2
+	PUSH R3
+	LOAD R2, R3
+	STORE R3, 3(LB)
+	POP R3
+	PUSH R4
+	LOAD #1080, R4
+	FLOAT #1080, R4
+	PUSH R5
+	LOAD R4, R5
+	STORE R5, 4(LB)
+	POP R5
+	PUSH R6
+	LOAD #2520, R6
+	FLOAT #2520, R6
+	PUSH R7
+	LOAD R6, R7
+	STORE R7, 5(LB)
+	POP R7
+	PUSH R8
+	LOAD #1500, R8
+	FLOAT #1500, R8
+	PUSH R9
+	LOAD R8, R9
+	STORE R9, 6(LB)
+	POP R9
+	PUSH R10
+	LOAD #2520, R10
+	FLOAT #2520, R10
+	PUSH R11
+	LOAD R10, R11
+	STORE R11, 7(LB)
+	POP R11
+	PUSH R12
+	LOAD -3(LB), R12
+	MUL -3(LB), R12
+	BOV overflow_error
+	PUSH R13
+	LOAD R12, R13
+	STORE R13, 8(LB)
+	POP R13
+; Instructions
+	PUSH R14
+	LOAD -3(LB), R14
+	CMP #0x1.fffffcp-1, R14
+	BLT Else.2074
+; return 
+	LOAD #0x1.921fb6p0, R0
+	BRA fin.Math._asinPositive
+Else.2074:
+Fin.2074:
+	LOAD -3(LB), R0
+	CMP #0x1.99999ap-2, R0
+	BGE Else.2104
+	LOAD 3(LB), R0
+	MUL 8(LB), R0
+	BOV overflow_error
+	LOAD R0, R0
+	ADD 4(LB), R0
+	BOV overflow_error
+	LOAD R0, R0
+	MUL 8(LB), R0
+	BOV overflow_error
+	LOAD R0, R0
+	SUB 5(LB), R0
+	BOV overflow_error
+	STORE R0, 1(LB)
+	LOAD 6(LB), R0
+	MUL 8(LB), R0
+	BOV overflow_error
+	LOAD R0, R0
+	SUB 7(LB), R0
+	BOV overflow_error
+	STORE R0, 2(LB)
+; return 
+	LOAD 1(LB), R0
+	DIV 2(LB), R0
+	BOV overflow_error
+	LOAD -3(LB), R1
+	MUL R0, R1
+	BOV overflow_error
+	LOAD R1, R0
+	BRA fin.Math._asinPositive
+	BRA Fin.2104
+Else.2104:
+; Method call : Math._sqrt
+	ADDSP #2
+; load de l'objet dans r
+	LOAD -2(LB), R0
+	LOAD R0, R2
+; store l'objet dans 0(SP)
+	STORE R2, 0(SP)
+; store des parametres de la methodes dans -1(SP) ..... -n(SP)
+	LOAD 8(LB), R1
+	OPP 8(LB), R1
+	LOAD R1, R2
+	STORE R2, -1(SP)
+; Recuperation de l'objet qu'on a Store dnas 0(SP)
+	LOAD 0(SP), R2
+; On test si l'objet est null
+	CMP #null, R2
+	BEQ dereferencement_null
+; On récupère l’adresse de la table des méthodes
+	LOAD 0(R2), R2
+	BSR 7(R2)
+	SUBSP #2
+	LOAD #1, R2
+	FLOAT #1, R2
+	LOAD R0, R0
+	ADD R2, R0
+	BOV overflow_error
+	STORE R0, 9(LB)
+; Method call : Math.atan
+	ADDSP #2
+; load de l'objet dans r
+	LOAD -2(LB), R0
+	LOAD R0, R2
+; store l'objet dans 0(SP)
+	STORE R2, 0(SP)
+; store des parametres de la methodes dans -1(SP) ..... -n(SP)
+	LOAD -3(LB), R1
+	DIV 9(LB), R1
+	BOV overflow_error
+	LOAD R1, R2
+	STORE R2, -1(SP)
+; Recuperation de l'objet qu'on a Store dnas 0(SP)
+	LOAD 0(SP), R2
+; On test si l'objet est null
+	CMP #null, R2
+	BEQ dereferencement_null
+; On récupère l’adresse de la table des méthodes
+	LOAD 0(R2), R2
+	BSR 10(R2)
+	SUBSP #2
+	STORE R0, 10(LB)
+; return 
+	LOAD #2, R0
+	FLOAT #2, R0
+	LOAD R0, R0
+	MUL 10(LB), R0
+	BOV overflow_error
+	LOAD R0, R0
+	BRA fin.Math._asinPositive
+Fin.2104:
+	SUBSP #10
+	WSTR "Erreur : sortie de la méthode <_asinPositive> sans return."
+	WNL
+	ERROR
+fin.Math._asinPositive:
+	RTS
+; --------------Code de la méthode asin
+code.Math.asin:
+	TSTO #0
+	BOV stack_overflow_error
+	ADDSP #0
+; Variables locales
+; Instructions
+	PUSH R2
+	LOAD #0, R2
+	FLOAT #0, R2
+	PUSH R3
+	LOAD -3(LB), R3
+	CMP R2, R3
+	BGE Else.2272
+; return 
+; Method call : Math._asinPositive
+	ADDSP #2
+; load de l'objet dans r
+	LOAD -2(LB), R0
+	LOAD R0, R2
+; store l'objet dans 0(SP)
+	STORE R2, 0(SP)
+; store des parametres de la methodes dans -1(SP) ..... -n(SP)
+	LOAD -3(LB), R1
+	OPP -3(LB), R1
+	LOAD R1, R2
+	STORE R2, -1(SP)
+; Recuperation de l'objet qu'on a Store dnas 0(SP)
+	LOAD 0(SP), R2
+; On test si l'objet est null
+	CMP #null, R2
+	BEQ dereferencement_null
+; On récupère l’adresse de la table des méthodes
+	LOAD 0(R2), R2
+	BSR 11(R2)
+	SUBSP #2
+	LOAD R0, R2
+	OPP R0, R2
+	LOAD R2, R0
+	BRA fin.Math.asin
+	BRA Fin.2272
+Else.2272:
+; return 
+; Method call : Math._asinPositive
+	ADDSP #2
+; load de l'objet dans r
+	LOAD -2(LB), R0
+	LOAD R0, R2
+; store l'objet dans 0(SP)
+	STORE R2, 0(SP)
+; store des parametres de la methodes dans -1(SP) ..... -n(SP)
+	LOAD -3(LB), R2
+	STORE R2, -1(SP)
+; Recuperation de l'objet qu'on a Store dnas 0(SP)
+	LOAD 0(SP), R2
+; On test si l'objet est null
+	CMP #null, R2
+	BEQ dereferencement_null
+; On récupère l’adresse de la table des méthodes
+	LOAD 0(R2), R2
+	BSR 11(R2)
+	SUBSP #2
+	LOAD R0, R0
+	BRA fin.Math.asin
+Fin.2272:
+	SUBSP #0
+	WSTR "Erreur : sortie de la méthode <asin> sans return."
+	WNL
+	ERROR
+fin.Math.asin:
+	RTS
+; --------------ERREUR OVERFLOW------------
+overflow_error:
+	WSTR "Error: Overflow during arithmetic operation"
+	WNL
+	ERROR
+; ------------ERREUR STACKOVERFLOW----------
+stack_overflow_error:
+	WSTR "Error: Stack Overflow"
+	WNL
+	ERROR
+; ------------ERREUR DEREFERENCEMENT----------
+dereferencement_null:
+	WSTR "Erreur : dereferencement de null"
+	WNL
+	ERROR
+; ------------ERREUR INPUT/OUTPUT----------
+IO_error:
+	WSTR "Erreur : Input/Output invalide."
+	WNL
+	ERROR
+; ------------ERREUR DE CAST----------
+cast_error:
+	WSTR "Erreur : Cast Incompatible"
+	WNL
+	ERROR

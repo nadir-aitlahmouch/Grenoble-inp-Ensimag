@@ -1,0 +1,17 @@
+// Résultats :
+// OK 
+
+
+{
+    int x = 1;
+    int y = 2;
+    boolean isIt;
+
+    isIt = (x < y);
+
+    if(isIt){
+        println("OK");
+    } else {
+      println("K0");
+    }
+}

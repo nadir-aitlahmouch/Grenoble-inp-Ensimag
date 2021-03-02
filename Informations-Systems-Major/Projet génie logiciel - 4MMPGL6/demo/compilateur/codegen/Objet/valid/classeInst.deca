@@ -1,0 +1,11 @@
+// Résultat
+// OK
+
+class A {
+
+}
+
+{
+    A a = new A();
+    println("OK");
+}

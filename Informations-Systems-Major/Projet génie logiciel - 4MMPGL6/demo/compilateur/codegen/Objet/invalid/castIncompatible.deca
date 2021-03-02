@@ -1,0 +1,8 @@
+class A{}
+class B extends A{}
+
+{
+ Object o = new Object();
+ A a = new A();
+ a = (B)(a);
+}

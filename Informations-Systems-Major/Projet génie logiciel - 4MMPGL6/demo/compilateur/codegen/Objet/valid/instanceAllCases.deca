@@ -1,0 +1,52 @@
+// Résultats
+// truetruefalsefalsetrue
+
+// Résultats
+// OK,OK,OK,OK,OK,OK,OK,OK,OK.
+
+class A{}
+class B extends A{}
+class C extends B{}
+{
+	A a = new A();
+	A b = new B();
+	A c = new C();
+	boolean isIt;
+
+	isIt = a instanceof A;
+	if (isIt) {print("OK,");}
+	else {print("false");}
+
+	isIt = b instanceof A;
+	if (isIt) {print("OK,");}
+	else {print("false");}
+
+	isIt = c instanceof A;
+	if (isIt) {print("OK,");}
+	else {print("false");}
+
+	isIt = a instanceof B;
+	if (isIt) {print("true");}
+	else {print("OK,");}
+
+	isIt = b instanceof B;
+	if (isIt) {print("OK,");}
+	else {print("false");}
+
+	isIt = c instanceof B;
+	if (isIt) {print("OK,");}
+	else {print("false");}
+
+	isIt = a instanceof C;
+	if (isIt) {print("true");}
+	else {print("OK,");}
+
+	isIt = b instanceof C;
+	if (isIt) {print("true");}
+	else {print("OK,");}
+
+	isIt = c instanceof C;
+	if (isIt) {print("OK.");}
+	else {print("false");}
+
+}

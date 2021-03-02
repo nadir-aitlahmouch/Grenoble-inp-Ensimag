@@ -1,0 +1,87 @@
+; start main program
+;         Construction des tables des methodes
+; Construction des tables des methodes de la classe Object
+	LOAD #null, R0
+	STORE R0, 1(GB)
+	LOAD code.Object.equals, R0
+	STORE R0, 2(GB)
+; Main program
+	TSTO #0
+	BOV stack_overflow_error
+	ADDSP #3
+	ADDSP #3
+	LOAD #2, R0
+	FLOAT #2, R0
+	LOAD R0, R1
+	STORE R1, 3(GB)
+	LOAD #127, R1
+	STORE R1, 4(GB)
+	LOAD #1, R1
+	FLOAT #1, R1
+	LOAD R1, R2
+	STORE R2, 5(GB)
+; Beginning of main instructions:
+	LOAD 4(GB), R0
+	CMP #0, R0
+	BGE Else.64
+	LOAD #1, R0
+	FLOAT #1, R0
+	LOAD R0, R0
+	DIV 3(GB), R0
+	BOV overflow_error
+	STORE R0, 3(GB)
+	LOAD 4(GB), R0
+	OPP 4(GB), R0
+	STORE R0, 4(GB)
+	BRA WhileCondition.98
+WhileDebut.98:
+	LOAD 5(GB), R0
+	MUL 3(GB), R0
+	BOV overflow_error
+	STORE R0, 5(GB)
+	LOAD 4(GB), R0
+	SUB #1, R0
+	STORE R0, 4(GB)
+WhileCondition.98:
+	LOAD 4(GB), R0
+	CMP #0, R0
+	BGT WhileDebut.98
+	BRA Fin.64
+Else.64:
+	BRA WhileCondition.168
+WhileDebut.168:
+	LOAD 5(GB), R0
+	MUL 3(GB), R0
+	BOV overflow_error
+	STORE R0, 5(GB)
+	LOAD 4(GB), R0
+	SUB #1, R0
+	STORE R0, 4(GB)
+WhileCondition.168:
+	LOAD 4(GB), R0
+	CMP #0, R0
+	BGT WhileDebut.168
+Fin.64:
+	LOAD 5(GB), R1
+	WFLOAT
+	HALT
+; end main program
+; -> Declaration des classes
+code.Object.equals:
+fin.Object.equals:
+	RTS
+; --------------ERREUR OVERFLOW------------
+overflow_error:
+	WSTR "Error: Overflow during arithmetic operation"
+	WNL
+	ERROR
+; ------------ERREUR STACKOVERFLOW----------
+stack_overflow_error:
+	WSTR "Error: Stack Overflow"
+	WNL
+	ERROR
+; ------------ERREUR DEREFERENCEMENT----------
+dereferencement_null:
+	WSTR "Erreur : dereferencement de null"
+	WNL
+	ERROR

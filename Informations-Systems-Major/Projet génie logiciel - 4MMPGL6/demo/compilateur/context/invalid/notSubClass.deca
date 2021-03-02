@@ -1,0 +1,14 @@
+class A {
+	int x = 80;
+}
+
+class B {
+	int y = 33;
+	
+}
+
+{
+	A a = new A();
+	B b = new B();
+	a = (B)(b);
+}

@@ -1,0 +1,246 @@
+class Math{
+  float MIN_VALUE = 1.4E-45;
+  float MAX_VALUE = 3.4028235E38;
+  float res = 1;
+  float pi = 3.1415926;
+  float reste_pi = 1.509957E-7;
+  float PI_4 = 0.78539816339744830675f;
+  float PI_2 = 1.5707963267948966135f;
+
+  float _puissance(float b, int a){
+  while ( a > 0) {
+      res = res * b;
+      a = a - 1;
+  }
+  return res;
+  }
+
+  // reduce
+
+  float _reduce(float f) {
+    int n = (int) (f/pi);
+    float r = f - n*pi - n*reste_pi;
+    if((n % 2) == 0){
+      return r;
+    }
+    else{
+        return -r;
+    }
+  }
+  //           cos
+  float cos(float f) {
+        float x;
+        int k = (int) (f/pi);
+        int n = 0;
+        float tmp = 1;
+        float s = 1;
+        if (f < 0){
+            return cos(-f);
+        }
+        else if (f == 0) {
+            return 1.0;
+        }
+        else if (f > pi){
+            x = _reduce(f);
+        }
+        else{
+            x = f;
+        }
+        while(n < 64) {
+            tmp = -tmp*(x*x)/((2*n+1) * (2*n+2));
+            n = n + 1;
+            s = s + tmp;
+        }
+        return _puissance(-1.0, k)*s;
+  }
+
+  // sin
+
+  float sin(float x){
+  float t = x - PI_2;
+  float c = cos(t);
+  return c;
+
+  }
+
+//          ULP
+
+  float Ulp(float x){
+  int exposant = 0;
+  float y = 2;
+  int a;
+  float p = 1;
+  if(x < 0.0){
+    x = -x ;
+    }
+
+  if( x >= 1.0)
+  {
+    exposant = exposant - 1;
+    while(x >= 1.0){
+      x = x / 2;
+      exposant = exposant + 1;
+    }
+  }
+  else if( x > 0.0 && x < 1.0 ){
+    while(x <= 1.0){
+      x = x * 2;
+      exposant = exposant - 1;
+    }
+  }
+
+  a = exposant -23;
+  if(a < 0) {
+      y = 1/y;
+      a = -a;
+      while ( a > 0) {
+          p = p * y;
+          a = a - 1;
+      }
+  }
+
+  else {
+      while ( a > 0) {
+          p = p * y;
+          a = a - 1;
+      }
+  }
+  return p;
+}
+// sqrt
+
+float  _sqrt(float x){
+    int k = 1;
+    float tmp = 1;
+    float s = 1;
+    while(k < 64000){
+      tmp = tmp *(x / k) * (0.5-(k-1));
+      s = s + tmp;
+      k = k + 1;
+    }
+    return s;
+}
+// calcul de Atan proche de zero
+
+float _atanNear0(float x){
+
+    // les coeff du polynomes
+    float p5 = -4;
+    float p3 = 40;
+    float p1 = 105;
+
+    float q2 = 75;
+    float q0 = 105;
+
+
+    // variable
+    float x2;
+    float result;
+    float P;
+    float Q;
+
+    x2 = x*x;
+    P = (p5 * x2 + p3) * x2 + p1;
+    Q = q2 * x2 + q0;
+    result = x*(P / Q);
+    return result;
+}
+
+// Atan positive
+
+float _atanPositive(float x) {
+    // valeur de pi
+
+
+     // bornes des intervalles
+     float sq2p1 = 2.414213562373095048802f;
+     float sq2m1  = 0.414213562373095048802f;
+     float t;
+     float cte;
+     float coef;
+    if(x < sq2m1){
+      t = x;
+      cte = 0;
+      coef = 1;
+      }
+    else if(x > sq2p1){
+      t = 1/x;
+      cte = PI_2;
+      coef = -1;
+      }
+      else{
+      t = (x-1)/(x+1);
+      cte = PI_4;
+      coef = 1;
+      }
+      return cte + coef * _atanNear0(t);
+}
+
+//        Arctan
+
+float  atan(float x){
+  if (x < 0){
+    return -_atanPositive(-x);
+    }
+  else{
+    return _atanPositive(x);
+    }
+  }
+
+  //     Asin positive
+
+float _asinPositive(float x){
+
+  // variable
+   float P;
+   float Q;
+    // affectation
+    float z5 = 61;
+    float z3 = 1080;
+    float z1 = 2520;
+
+    float c2 = 1500;
+    float c0 = 2520;
+    float x2 =  x*x ;
+    float z;
+    float t;
+    if(x >= 0.9999999f){
+      return 1.5707964f;
+    }
+    if( x < 0.4){
+      P = (z5 * x2 + z3) * x2 - z1;
+      Q = c2 * x2 - c0;
+      return x*(P/Q);
+    }
+    else{
+      z = _sqrt(-x2) + 1;
+
+      t = atan(x/z);
+      return (2 * t);
+    }
+
+  }
+
+// Asin
+
+  float asin(float x){
+  if (x<0){
+    return -_asinPositive(-x);
+  }
+  else {
+    return _asinPositive(x);
+   }
+}
+
+}
+
+{
+  Math m = new Math();
+  int n = -10000;
+  float x = 0.0;
+  while (n < 10000) {
+   x = x + 0.001;
+    println(m.sin(x));
+    n = n +1;
+  }
+}

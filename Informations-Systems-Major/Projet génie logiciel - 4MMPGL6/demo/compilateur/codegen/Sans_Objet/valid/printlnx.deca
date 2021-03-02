@@ -1,0 +1,4 @@
+{
+printlnx(10);
+printlnx(15.6);
+}

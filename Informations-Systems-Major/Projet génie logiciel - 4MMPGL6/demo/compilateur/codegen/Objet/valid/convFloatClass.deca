@@ -1,0 +1,15 @@
+// Résultat
+// 4? 4
+
+class A {
+	float mult(int x, float y) {
+		return x*y;
+	}
+
+}
+
+{
+	A a = new A();
+	println("4? ",(int)(a.mult(2,2.2)));   
+}
+

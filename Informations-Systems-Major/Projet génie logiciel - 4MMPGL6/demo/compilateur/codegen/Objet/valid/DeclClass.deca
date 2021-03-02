@@ -1,0 +1,71 @@
+// Résultats
+// 0.00000e+00
+// 3
+// 2.23293e+05
+// 1.40000e-03
+// 0
+// 5.89000e-01
+
+
+class A{
+  protected int x = 0;
+  float y = 0;
+  boolean f = false;
+  boolean v;
+  void setX(int x){
+    this.x = x;
+    println("x devient  ", x);
+  }
+  int getX(){
+    return x;
+  }
+  float Method(int a, float b, boolean c){
+    if(c && true){
+      return a + b + y;
+    }
+    else if(!c && f){
+      return a - b * y;
+    }
+    else{
+      return y;
+    }
+  }
+}
+
+
+class B extends A{
+  float r = 44658.5;
+  int n;
+  boolean v = true;
+  int getNmbrOr(){
+    return (1 + 5) / 2;
+  }
+}
+
+class C extends A{
+  float p = 0.589;
+  float getNmbrOr(){
+    return 0.0014;
+  }
+  float Method(int a, float b , boolean c){
+    return p + getNmbrOr();
+  }
+}
+
+
+{
+  A a = new A();
+  B b = new B();
+  C c = null;
+  if(b.v){
+    println(b.Method(1, 0.5, false));
+    println(b.getNmbrOr());
+    println(b.r*5);
+  }
+  if(!b.v && true){
+    c = new C();
+    println(c.getNmbrOr());
+    println(c.getX());
+    println(c.p);
+  }
+}

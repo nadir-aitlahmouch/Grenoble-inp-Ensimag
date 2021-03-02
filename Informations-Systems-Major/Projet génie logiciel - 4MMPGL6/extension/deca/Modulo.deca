@@ -1,0 +1,36 @@
+{
+<<<<<<< HEAD
+float pi = 3.1415926f;
+float reste_pi = 1.509957E-7f;
+float reste_pi2 = 9.592326E-14f;
+=======
+float pi = 3.1415926;
+float reste_pi = 1.509957E-7;
+float reste_pi2 = 9.592326E-14;
+float reste_pi3 = 6.776263E-20;
+float pi2 = pi/2;
+int x = 4564;
+>>>>>>> 0eff5afee5d3bd955fe7d498671ce94c66930b8f
+
+float pi2 = pi/2;
+float x = 4562200;
+//x = x - 11000 * pi;
+if (x > 0.0) {
+  while(x > pi) {
+    x = x - pi;
+    x = x - reste_pi;
+    x = x - reste_pi2;
+
+    }
+}
+else {
+  while(x < - pi) {
+  x = x + pi;
+  x = x + reste_pi;
+  x = x + reste_pi2;
+
+}
+}
+print(x);
+
+}

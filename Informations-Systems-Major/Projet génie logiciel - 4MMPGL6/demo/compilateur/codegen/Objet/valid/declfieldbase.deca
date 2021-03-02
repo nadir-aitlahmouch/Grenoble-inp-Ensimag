@@ -1,0 +1,17 @@
+class A {
+    int a;
+    int b;
+    int c;
+}
+
+class B extends A {
+    int x = 1;
+    int y = 2;
+    int z = 3;
+}
+
+{
+    A a = new A();
+    B b = new B();
+    println(a.a, a.b, a.c, b.x, b.y, b.z);
+}

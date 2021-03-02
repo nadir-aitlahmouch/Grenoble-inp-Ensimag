@@ -1,0 +1,48 @@
+{
+// variable globale
+float MIN_VALUE = 1.4E-45;
+float MAX_VALUE = 3.4028235E38;
+
+float x = 100;
+int exposant = 0;
+float y = 2;
+int a;
+float p = 1;
+if(x < 0.0){
+  x = -x ;
+  }
+
+if( x >= 1.0)
+{
+  exposant = exposant - 1;
+  while(x >= 1.0){
+    x = x / 2;
+    exposant = exposant + 1;
+  }
+}
+else if( x > 0.0 && x < 1.0 ){
+  while(x <= 1.0){
+    x = x * 2;
+    exposant = exposant - 1;
+  }
+}
+
+a = exposant -23;
+if(a < 0) {
+    y = 1/y;
+    a = -a;
+    while ( a > 0) {
+        p = p * y;
+        a = a - 1;
+    }
+}
+
+else {
+    while ( a > 0) {
+        p = p * y;
+        a = a - 1;
+    }
+}
+
+print(p);
+}

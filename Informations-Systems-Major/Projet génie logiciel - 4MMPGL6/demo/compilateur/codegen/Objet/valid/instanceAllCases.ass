@@ -1,0 +1,296 @@
+; start main program
+; ----------------------------------------
+;              Table des méthodes
+; ----------------------------------------
+;         Construction des tables des methodes
+; Construction des tables des methodes de la classe Object
+	LOAD #null, R0
+	STORE R0, 1(GB)
+	LOAD code.Object.equals, R0
+	STORE R0, 2(GB)
+; Construction des tables des methodes de la classe A
+	LEA 1(GB), R0
+	STORE R0, 3(GB)
+	LOAD code.Object.equals, R0
+	STORE R0, 4(GB)
+; Construction des tables des methodes de la classe B
+	LEA 3(GB), R0
+	STORE R0, 5(GB)
+	LOAD code.Object.equals, R0
+	STORE R0, 6(GB)
+; Construction des tables des methodes de la classe C
+	LEA 5(GB), R0
+	STORE R0, 7(GB)
+	LOAD code.Object.equals, R0
+	STORE R0, 8(GB)
+; ----------------------------------------
+;              Main Program
+; ----------------------------------------
+	TSTO #0
+	BOV stack_overflow_error
+	ADDSP #9
+	ADDSP #4
+	NEW #1, R0
+	BOV stack_overflow_error
+	LEA 3(GB), R1
+	STORE R1, 0(R0)
+	PUSH R0
+	BSR init.A
+	POP R0
+	LOAD R0, R1
+	STORE R1, 9(GB)
+	NEW #1, R1
+	BOV stack_overflow_error
+	LEA 5(GB), R2
+	STORE R2, 0(R1)
+	PUSH R1
+	BSR init.B
+	POP R1
+	LOAD R1, R2
+	STORE R2, 10(GB)
+	NEW #1, R2
+	BOV stack_overflow_error
+	LEA 7(GB), R3
+	STORE R3, 0(R2)
+	PUSH R2
+	BSR init.C
+	POP R2
+	LOAD R2, R3
+	STORE R3, 11(GB)
+; Beginning of main instructions:
+	LOAD #1, R3
+	STORE R3, 12(GB)
+	LOAD 12(GB), R1
+	BEQ Else.171
+	WSTR "OK,"
+	BRA Fin.171
+Else.171:
+	WSTR "false"
+Fin.171:
+	LOAD #1, R3
+	STORE R3, 12(GB)
+	LOAD 12(GB), R1
+	BEQ Else.211
+	WSTR "OK,"
+	BRA Fin.211
+Else.211:
+	WSTR "false"
+Fin.211:
+	LOAD #1, R3
+	STORE R3, 12(GB)
+	LOAD 12(GB), R1
+	BEQ Else.251
+	WSTR "OK,"
+	BRA Fin.251
+Else.251:
+	WSTR "false"
+Fin.251:
+; Test is dynamic SubType
+	LEA 5(GB), R3
+	LOAD 9(GB), R4
+	LOAD 0(R4), R4
+	PUSH R4
+	PUSH R3
+	BSR testInstanceOf.start
+	SUBSP #2
+	LOAD R0, R3
+	STORE R3, 12(GB)
+	LOAD 12(GB), R1
+	BEQ Else.291
+	WSTR "true"
+	BRA Fin.291
+Else.291:
+	WSTR "OK,"
+Fin.291:
+; Test is dynamic SubType
+	LEA 5(GB), R3
+	LOAD 10(GB), R5
+	LOAD 0(R5), R5
+	PUSH R5
+	PUSH R3
+	BSR testInstanceOf.start
+	SUBSP #2
+	LOAD R0, R3
+	STORE R3, 12(GB)
+	LOAD 12(GB), R1
+	BEQ Else.331
+	WSTR "OK,"
+	BRA Fin.331
+Else.331:
+	WSTR "false"
+Fin.331:
+; Test is dynamic SubType
+	LEA 5(GB), R3
+	LOAD 11(GB), R6
+	LOAD 0(R6), R6
+	PUSH R6
+	PUSH R3
+	BSR testInstanceOf.start
+	SUBSP #2
+	LOAD R0, R3
+	STORE R3, 12(GB)
+	LOAD 12(GB), R1
+	BEQ Else.371
+	WSTR "OK,"
+	BRA Fin.371
+Else.371:
+	WSTR "false"
+Fin.371:
+; Test is dynamic SubType
+	LEA 7(GB), R3
+	LOAD 9(GB), R7
+	LOAD 0(R7), R7
+	PUSH R7
+	PUSH R3
+	BSR testInstanceOf.start
+	SUBSP #2
+	LOAD R0, R3
+	STORE R3, 12(GB)
+	LOAD 12(GB), R1
+	BEQ Else.411
+	WSTR "true"
+	BRA Fin.411
+Else.411:
+	WSTR "OK,"
+Fin.411:
+; Test is dynamic SubType
+	LEA 7(GB), R3
+	LOAD 10(GB), R8
+	LOAD 0(R8), R8
+	PUSH R8
+	PUSH R3
+	BSR testInstanceOf.start
+	SUBSP #2
+	LOAD R0, R3
+	STORE R3, 12(GB)
+	LOAD 12(GB), R1
+	BEQ Else.451
+	WSTR "true"
+	BRA Fin.451
+Else.451:
+	WSTR "OK,"
+Fin.451:
+; Test is dynamic SubType
+	LEA 7(GB), R3
+	LOAD 11(GB), R9
+	LOAD 0(R9), R9
+	PUSH R9
+	PUSH R3
+	BSR testInstanceOf.start
+	SUBSP #2
+	LOAD R0, R3
+	STORE R3, 12(GB)
+	LOAD 12(GB), R1
+	BEQ Else.491
+	WSTR "OK."
+	BRA Fin.491
+Else.491:
+	WSTR "false"
+Fin.491:
+	HALT
+; end main program
+; -> Declaration des classes
+; ----------------------------------------
+;              Class Object
+; ----------------------------------------
+init.Object:
+	RTS
+code.Object.equals:
+	TSTO #2
+; Sauvegarde de registres
+	PUSH R2
+	PUSH R3
+; Test de comparaison
+	LOAD -2(LB), R2
+	LOAD -3(LB), R3
+	CMP R2, R3
+	SEQ R0
+; Restauration des registres
+	POP R3
+	POP R2
+fin.Object.equals:
+	RTS
+; ----------------------------------------
+;              Class A
+; ----------------------------------------
+init.A:
+	LOAD -2(LB), R0
+	RTS
+; ----------------------------------------
+;              Class B
+; ----------------------------------------
+init.B:
+	PUSH R0
+	PUSH R1
+	LOAD -2(LB), R0
+	PUSH R0
+	BSR init.A
+	POP R0
+	RTS
+; ----------------------------------------
+;              Class C
+; ----------------------------------------
+init.C:
+	PUSH R0
+	PUSH R1
+	LOAD -2(LB), R0
+	PUSH R0
+	BSR init.B
+	POP R0
+	RTS
+; ----------------------------------------
+;              Code Test InstanceOf
+; ----------------------------------------
+testInstanceOf.start:
+; Sauvegarde des registres
+	PUSH R2
+	PUSH R3
+; On charge le registre de la classe target
+	LOAD -4(SP), R3
+; On charge le registre de la classe courante
+	LOAD -5(SP), R2
+testInstanceOf.boucle:
+; On teste si on est remonté jusqu'à la classe Object
+	CMP #null, R2
+	BEQ InstanceOf.false
+; On teste si on a rencontré la classe target en bouclant
+	CMP R2, R3
+	BEQ InstanceOf.true
+; Sinon on change la classe courante avec sa superclasse et on reboucle
+	LOAD 0(R2), R2
+	BRA testInstanceOf.boucle
+InstanceOf.true:
+	LOAD #1, R0
+	BRA InstanceOf.fin
+InstanceOf.false:
+	LOAD #0, R0
+InstanceOf.fin:
+; On recharge les registres utilisés
+	POP R3
+	POP R2
+	RTS
+; --------------ERREUR OVERFLOW------------
+overflow_error:
+	WSTR "Error: Overflow during arithmetic operation"
+	WNL
+	ERROR
+; ------------ERREUR STACKOVERFLOW----------
+stack_overflow_error:
+	WSTR "Error: Stack Overflow"
+	WNL
+	ERROR
+; ------------ERREUR DEREFERENCEMENT----------
+dereferencement_null:
+	WSTR "Erreur : dereferencement de null"
+	WNL
+	ERROR
+; ------------ERREUR INPUT/OUTPUT----------
+IO_error:
+	WSTR "Erreur : Input/Output invalide."
+	WNL
+	ERROR
+; ------------ERREUR DE CAST----------
+cast_error:
+	WSTR "Erreur : Cast Incompatible"
+	WNL
+	ERROR

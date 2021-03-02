@@ -1,0 +1,23 @@
+{
+
+    float x = 2;
+    int a = 127;
+    float p = 1;
+    if(a < 0) {
+        x = 1/x;
+        a = -a;
+        while ( a > 0) {
+            p = p * x;
+            a = a - 1;
+        }
+    }
+
+    else {
+        while ( a > 0) {
+            p = p * x;
+            a = a - 1;
+        }
+    }
+    print(p);
+
+}

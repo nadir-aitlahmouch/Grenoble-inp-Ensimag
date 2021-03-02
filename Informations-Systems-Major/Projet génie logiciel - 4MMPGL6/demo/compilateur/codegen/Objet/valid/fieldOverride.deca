@@ -1,0 +1,15 @@
+class X {
+    int x = 1;
+    int y = 2;
+}
+
+class A extends X {
+    int x = 10;
+    int y = 20;
+}
+
+{
+    A a = new A();
+    println(a.x, a.y);
+}
+

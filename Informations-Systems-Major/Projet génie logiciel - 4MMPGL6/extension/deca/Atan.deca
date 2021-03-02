@@ -1,0 +1,67 @@
+// fonction en deca de Atan
+// ca ne marche que pour les angles positives parce que je ne voulais pas faire de if dans des if
+{
+  // valeur de l'angle
+  float x;
+  // les bornes de mes intervalles
+  float sq2p1;
+  float sq2m1;
+
+  // valeur de pi
+  float PI_4;
+  float PI_2;
+
+  // les coeff du polynomes
+  float p5;
+  float p3;
+  float p1;
+
+  float q2;
+  float q0;
+
+  // variable
+  float x2;
+  float result;
+  float P;
+  float Q;
+
+  // affectation
+  sq2p1 = 2.414213562373095048802f;
+  sq2m1  = 0.414213562373095048802f;
+
+  PI_4 = 0.78539816339744830675f;
+  PI_2 = 1.5707963267948966135f;
+
+  p5 = -4;
+  p3 = 40;
+  p1 = 105;
+
+  q2 = 75;
+  q0 = 105;
+
+  x = 10000000;
+  if( x < sq2m1){
+    x2 = x*x;
+    P = (p5 * x2 + p3) * x2 + p1;
+    Q = q2 * x2 + q0;
+    result = x*(P / Q);
+  }
+  else if( x > sq2p1 )
+    {
+    x = 1 / x;
+    x2 = x*x;
+    P = (p5 * x2 + p3) * x2 + p1;
+    Q = q2 * x2 + q0;
+    result = PI_2 - x*(P / Q);
+    }
+  else
+  {
+  x = (x-1) /(x+1);
+  x2 = x*x;
+  P = (p5 * x2 + p3) * x2 + p1;
+  Q = q2 * x2 + q0;
+  result = PI_4 + x*(P / Q);
+  }
+
+  print(result);
+}
