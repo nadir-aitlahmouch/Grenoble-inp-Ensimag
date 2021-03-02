@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="oval">
+            <stroke android:color="#1E90FF" android:width="2dp" />
+            <solid android:color="#87CEEB"/>
+            <size android:width="100dp" android:height="100dp"/>
+        </shape>
+    </item>
+    <!--button focused state background color-->
+    <item android:state_focused="true">
+        <shape android:shape="oval">
+            <solid android:color="#001E5C" />
+            <corners android:radius="4dp"/>
+        </shape>
+    </item>
+
+    <!--button pressed state background color-->
+    <item android:state_pressed="true">
+        <shape android:shape="oval">
+            <solid android:color="#006E60" />
+            <corners android:radius="5dp"/>
+        </shape>
+    </item>
+</selector>

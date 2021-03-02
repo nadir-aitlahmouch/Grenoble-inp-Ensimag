@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorAccent">#03DAC5</color>
+    <color name="VioletMauve">#8149FF</color>
+    <color name="Wheat">#F5DEB3</color>
+    <color name="PapayaWhip">#FFEFD5</color>
+    <color name="Cornsilk">#FFF8DC</color>
+    <color name="AliceBlue">#F0F8FF</color>
+    <color name="Turquoise">#83EFDE</color>
+    <color name="White">#FFFFFF</color>
+    <color name="black">#010101</color>
+    <color name="grey">#E4E3E4</color>
+
+</resources>

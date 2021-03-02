@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.tripplanner">
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/applogo"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".Notifications"></activity>
+        <activity android:name=".Virement"
+            android:theme="@style/AppTheme.CustomTheme"
+            />
+        <activity android:name=".Favoris" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/map_key" />
+
+        <activity android:name=".ListeActivite" />
+        <activity android:name=".Map" />
+        <activity
+            android:name=".Filtre"
+            android:theme="@style/AppTheme.CustomTheme" />
+        <activity android:name=".Miseajour" />
+        <activity android:name=".Cartes" />
+        <activity android:name=".Historique" />
+        <activity android:name=".Activites" />
+        <activity android:name=".Parametres" />
+        <activity android:name=".Profil" />
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".GestionnaireBudget" />
+    </application>
+
+</manifest>

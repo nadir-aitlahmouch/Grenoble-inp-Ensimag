@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg"
+    tools:context=".Activites">
+
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="419dp"
+        android:layout_height="189dp"
+        android:fontFamily="sans-serif-black"
+        android:gravity="center"
+        android:text="Activités et Excursions"
+        android:background="@drawable/head_3"
+        android:textAllCaps="true"
+        android:textColor="@color/AliceBlue"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="-4dp"
+        tools:layout_editor_absoluteY="-1dp" />
+
+    <ImageButton
+        android:id="@+id/filtre"
+        android:layout_width="100dp"
+        android:layout_height="107dp"
+        android:layout_marginStart="214dp"
+        android:layout_marginLeft="214dp"
+        android:layout_marginTop="342dp"
+        android:layout_marginEnd="97dp"
+        android:layout_marginRight="97dp"
+        android:layout_marginBottom="282dp"
+        android:background="@drawable/round_bg"
+        android:src="@drawable/filtre"
+        tools:ignore="MissingConstraints" />
+
+    <ImageButton
+        android:id="@+id/map"
+        android:layout_width="101dp"
+        android:layout_height="107dp"
+        android:layout_marginStart="113dp"
+        android:layout_marginLeft="113dp"
+        android:layout_marginTop="255dp"
+        android:layout_marginEnd="197dp"
+        android:layout_marginRight="197dp"
+        android:layout_marginBottom="369dp"
+        android:background="@drawable/round_bg"
+        android:src="@drawable/map"
+        tools:ignore="MissingConstraints"/>
+
+    <ImageButton
+        android:id="@+id/liste"
+        android:layout_width="100dp"
+        android:layout_height="102dp"
+        android:layout_marginStart="114dp"
+        android:layout_marginLeft="114dp"
+        android:layout_marginTop="425dp"
+        android:layout_marginEnd="197dp"
+        android:layout_marginRight="197dp"
+        android:layout_marginBottom="204dp"
+        android:background="@drawable/round_bg"
+        android:src="@drawable/liste"
+        tools:ignore="MissingConstraints" />
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="422dp"
+        android:layout_height="107dp"
+        android:layout_marginTop="624dp"
+        android:background="@color/Turquoise"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        tools:ignore="MissingConstraints"
+
+
+        />
+
+    <ImageButton
+        android:id="@+id/home"
+        android:layout_width="68dp"
+        android:layout_height="58dp"
+        android:layout_marginStart="86dp"
+        android:layout_marginLeft="86dp"
+        android:layout_marginTop="644dp"
+        android:layout_marginEnd="257dp"
+        android:layout_marginRight="257dp"
+        android:layout_marginBottom="29dp"
+        android:src="@drawable/home"
+        android:background="@color/Turquoise"
+        tools:ignore="MissingConstraints"
+        />
+
+    <ImageButton
+        android:id="@+id/parametres"
+        android:layout_width="68dp"
+        android:layout_height="58dp"
+        android:layout_marginStart="256dp"
+        android:layout_marginLeft="256dp"
+        android:layout_marginTop="644dp"
+        android:layout_marginEnd="87dp"
+        android:layout_marginRight="87dp"
+        android:layout_marginBottom="29dp"
+        android:src="@drawable/parametres"
+        android:background="@color/Turquoise"
+        tools:ignore="MissingConstraints"
+        />
+
+    <ImageButton
+        android:id="@+id/profil"
+        android:layout_width="68dp"
+        android:layout_height="58dp"
+        android:layout_marginStart="171dp"
+        android:layout_marginLeft="171dp"
+        android:layout_marginTop="644dp"
+        android:layout_marginEnd="172dp"
+        android:layout_marginRight="172dp"
+        android:layout_marginBottom="29dp"
+        android:src="@drawable/profil"
+        android:background="@color/Turquoise"
+        tools:ignore="MissingConstraints"
+        />
+
+
+
+</FrameLayout>
