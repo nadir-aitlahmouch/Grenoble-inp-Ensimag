@@ -1,0 +1,870 @@
+---
+title: "TP PMS"
+output:
+  pdf_document: default
+  html_document: default
+  html_notebook: default
+editor_options:
+  chunk_output_type: inline
+---
+
+** **
+#Ce TP est réalisé par le groupe:#
+\
+Xavier Bouclé
+\
+Ait lahmouch Nadir
+\
+El ouadghiri Abdessamad
+\
+\
+Problématique :
+\
+Un fabriquant produit des cuves dont qui possèdent des défaults (fissures). A partir d'une certaine profondeur la fissure rend la cuve dangereuse et dont non commerciable.
+\
+\
+Objectif :
+\
+Modéliser un problème liée à la profondeur des fissures d'une cuves afin de pouvoir vérifier que la proportion de cuve défecteuse est minime, dans le cas contraire, il faudrait revoir les machines ou la méthode de production pour réduire les pertes.
+
+** **
+
+* **1) Analyse des défauts de cuves:**
+
+Dans un état idéal, des cuves ont une surface parfaitement lisse. Néanmoins, et après quelques années d'utilisations, des défauts encombrants peuvent surgir. Ces derniers se présentent sous forme de fissures plus ou moins profondes. 
+Dans le but de contrôler ces défauts, une étude statistique s'impose. Grâce à un appareil, on peut établir des données classant ces fissures selon leurs profondeurs, nous allons donc essayer dans ce TP de les étudier afin d'en tirer d'éventuelles conclusions. 
+\
+\
+\
+\
+$\textbf{1-Première question:}$
+
+Effectuons sur ces dites données une étude statistique descriptive, mais avant cela commençons par les charger et les réorganiser.
+
+```{r, echo=FALSE}
+cuves <- read.table("cuves.csv",sep=";",header=T)
+attach(cuves)
+
+# Enlèvons maintenant les valeurs non existantes (NA) des cuves.
+bool1 <- sapply(cuve1, FUN = anyNA)
+bool2 <- sapply(cuve2, FUN = anyNA)
+bool3 <- sapply(cuve3, FUN = anyNA)
+
+cuve1 <- sort(cuve1[!bool1])
+cuve2 <- sort(cuve2[!bool2])
+cuve3 <- sort(cuve3[!bool3])
+
+```
+
+
+```{r, echo=FALSE}
+# Définissons maintenant les fonctions qui vont nous permettre de tracer les histogrammes 
+# à classes de même largeur ainsi qu'à classes de même effectif.
+
+# Histogramme à classes de même largeur
+histolarg <- function(x, xlim=NULL, N, ...)
+{
+# nombre de données
+n <- length(x) 
+# nombre de classes (règle de Sturges)
+if (n<12) k<-5 else k <- round(log2(n)+1) 
+# bornes des classes
+rangex <- max(x)-min(x)
+a0 <- min(x)-0.025*rangex
+ak <- max(x)+0.025*rangex
+bornes <- seq(a0, ak, length=k+1)
+# Etendue du tracé
+if (is.null(xlim))
+xlim<-c(bornes[1], bornes[k+1])
+# histogramme
+histx<-hist(x, prob=T, breaks=bornes, xlim=xlim, main = paste("Histogram_larg of CUVE" , N), ...)
+# histx
+}
+# Histogramme à classes de même effectif
+histoeff <- function(x,xlim=NULL, N, ...)
+{
+sx <- sort(x)
+n <- length(x)
+k <- round(log2(n)+1)
+rangex <- max(x)-min(x)
+breaks <- c(min(x)-0.025*rangex, quantile(x, seq(1, k-1)/k), max(x)+0.025*rangex)
+col <- 0
+if (is.null(xlim)) xlim<-c(breaks[1], breaks[k+1])
+hist(x, breaks=breaks, col=col, xlim=xlim, main = paste("Histogram_eff of CUVE" , N), probability=T, ...)
+}
+```
+\
+\
+\
+\
+\
+\
+\
+```{r, echo=FALSE, fig.width=6,fig.height=3.5}
+# Dessinons maintenant les différents histogrammes pour les différentes cuves.
+par(mfcol=c(1,2))
+# CUVE n°1:
+histolarg(cuve1,xlim=NULL,1)
+histoeff(cuve1,xlim=NULL,1)
+```
+\
+\
+\
+\
+
+```{r, echo=FALSE ,fig.width=6,fig.height=3.5}
+# Passons maintenant à la cuve n°2.
+par(mfcol=c(1,2))
+# CUVE n°2:
+histolarg(cuve2,xlim=NULL,2)
+histoeff(cuve2,xlim=NULL,2)
+```
+
+Les deux histogrammes des deux premières cuves suivent à peu près la même allure.
+\
+\
+\
+\
+\
+\
+
+```{r, echo=FALSE,fig.width=6,fig.height=3.5}
+# Et puis la cuve n°3
+par(mfcol=c(1,2))
+# CUVE n°3:
+histolarg(cuve3,xlim=NULL,3)
+histoeff(cuve3,xlim=NULL,3)
+```
+Cependant pour la 3ième cuve, la loi ne semble pas forcement être une loi $P_a$ mais une autre similaire à la loi normale
+\
+\
+\
+\
+Donnons à présent les indicateurs pour toutes les cuves.
+
+```{r, echo=FALSE}
+indicateurs <- c("Moyenne", "Médiane", "Valeur_min", "Valeur_max", "Ecart-type", "1er Quartile", "Dernier Quartile")
+Valeurs_1 <- c(mean(cuve1), median(cuve1), min(cuve1), max(cuve1), sd(cuve1), quantile(cuve1,1/4),quantile(cuve1,3/4))
+Valeurs_2 <- c(mean(cuve2), median(cuve2), min(cuve2), max(cuve2), sd(cuve2), quantile(cuve2,1/4),quantile(cuve2,3/4))
+Valeurs_3 <- c(mean(cuve3), median(cuve3), min(cuve3), max(cuve3), sd(cuve3), quantile(cuve3,1/4),quantile(cuve3,3/4))
+```
+\
+\
+\
+\
+\
+
+**CUVE 1**
+```{r, echo=FALSE}
+data.frame(indicateurs, Valeurs_1)
+```
+**CUVE 2**
+```{r, echo=FALSE}
+data.frame(indicateurs, Valeurs_2)
+```
+**CUVE 3**
+```{r, echo=FALSE}
+data.frame(indicateurs, Valeurs_3)
+```
+\
+\
+\
+# Commentaires a trouver / ajouter
+
+$\textbf{2-Deuxième question:}$
+\
+\
+1) Fonction de répartition de $X$.
+
+
+$$
+F_{Pa(a,2)}(x) =
+      \int_{-\infty}^x f_{Pa(a,2)}(t).dt =
+      \int_{-\infty}^x \frac{a2^a}{t^{1+a}} \textbf1_{[2,+\infty]}(t) dt =
+      \left\{
+          \begin{array}{ll} 
+              0 & \mbox{si } x < 2 \\
+              \int_2^x \frac{a2^a}{t^{1+a}}dt & \mbox{si } x\geq 2
+          \end{array}
+      \right.
+$$
+      
+$$
+\text{Soit }x \geq 2, F_{Pa(a,2)}(x) =
+      \int_2^x\frac{a2^a}{t^{1+a}}dt =
+      a2^a\left [ \frac{-1}{at^a} \right ]_2^x =
+      1 - \left (\frac{2}{x}\right )^a
+$$
+
+$$
+\text{Donc, } F_{Pa(a,2)}(x) =
+      \left\{
+          \begin{array}{ll}
+              0 & \mbox{si } x < 2 \\
+              1 - \left (\frac{2}{x}\right )^a & \mbox{si } x\geq 2
+          \end{array}
+      \right. \\
+$$
+On a bien la continuité de la fonction de répartition en $x=2$ et la valeur en $+\infty$ qui est égale à $1$.
+\
+\
+2) Espérance de $X$.
+
+$$
+\textbf{E}[X] = \int_{-\infty}^{+\infty} x f_{Pa(a,2)}(x)dx =
+      \int_b^{+\infty} x \frac{a2^a}{x^{1+a}}dx =
+      a2^a\int_b^{+\infty} \frac{dx}{x^a}dx
+$$
+      
+On veut que l'espérance soit finie c'est à dire que $a > 1$ afin que l'intégrale converge, et dans ce cas :
+
+$$
+\textbf{E}[X] = a2^a\left [\frac{1}{(1-a)x^{a-1}}\right ]_2^{+\infty} = \frac{2a}{a-1}
+$$
+
+3) Variance de $X$.
+
+$$
+\textbf{Var}[X] = {E[X^2]} - E[X]^2 = \int_2^{+\infty}x^2\frac{a2^a}{x^{a+1}}\:dx - {\left (\frac{2a}{a-1}\right )}^2 = a2^a\int_2^{+\infty}\frac{1}{x^{a-1}}\:dx - {\left (\frac{2a}{a-1}\right )}^2
+$$
+
+De même, pour que la variance soit finie, il faut que $a-1 > 1$ i.e $a > 2$ et on obtient :
+
+$$
+\textbf{Var}[X] = a2^a\left [\frac{-1}{(a-2)x^{a-2}}\right ]^{+\infty}_{2} - {\left (\frac{2a}{a-1}\right )}^2 = \frac{4a}{a-2} - {\left (\frac{2a}{a-1}\right )}^2
+$$
+Ainsi:
+$$
+\textbf{Var}[X] = \frac{4a}{(a-2){(a-1)}^2}
+$$
+
+\
+\
+$\textbf{3-Troisième question:}$
+
+$Y = \ln \frac{X}{2}$
+
+$$
+P(Y \leq y) = P(ln(X/2) \leq y) = P(X \leq 2e^y) = 
+      \left\{
+          \begin{array}{ll} 
+              0 & \mbox{si } 2e^y < 2 \\
+              1 - \left (\frac{2}{2e^y}\right )^a & \mbox{si } 2e^y\geq 2
+          \end{array}
+      \right.
+$$
+$$
+P(Y \leq y) =
+      \left\{
+          \begin{array}{ll} 
+              0 & \mbox{si } y < 0 \\
+              1 - \frac{1}{e^{ay}} & \mbox{si } y\geq 0
+          \end{array}
+      \right.
+$$
+
+\
+\
+
+$\textbf{4-Quatrième question:}$
+
+Donnons l'expression d'un intervalle de confiance de seuil $\alpha$ pour a.
+On sait d'après la précedente que:
+
+$$
+P(Y \leq y) =
+      \left\{
+          \begin{array}{ll} 
+              0 & \mbox{si } y < 0 \\
+              1 - \frac{1}{e^{ay}} & \mbox{si } y\geq 0
+          \end{array}
+      \right.
+$$
+Ainsi la densité de Y est:
+
+$$
+f_{Y}(y) = \left\{
+          \begin{array}{ll} 
+              0 & \mbox{si } y < 0 \\
+              ae^{-ay} & \mbox{si } y\geq 0
+          \end{array}
+      \right.
+$$
+
+On a:
+$$
+Y \sim \Gamma(1,a)
+$$
+alors
+$$
+\sum\limits_{i=1}^n Y_i  \sim \Gamma(n,a) 
+\Rightarrow  
+2a\sum\limits_{i=1}^n Y_i  \sim \Gamma(n,\frac{1}{2})
+$$
+D'autre part, on sait que
+$$
+\Gamma(n,\frac{1}{2})  \sim \chi_{2n}^2
+$$
+
+Alors
+$$
+2a\sum\limits_{i=1}^n Y_i  \sim \chi_{2n}^2
+$$
+Ainsi on a
+$$
+P(\beta \leq 2a\sum\limits_{i=1}^n Y_i \leq \gamma) = 1 - \alpha
+$$
+
+$$
+\Rightarrow 
+F_{\chi_{2n}^2}(\gamma) - F_{\chi_{2n}^2}(\beta) = 1 - \alpha
+$$
+
+
+
+On peut donner ainsi plusieurs valeurs à $F_{\chi_{2n}^2}(\gamma)$ et $F_{\chi_{2n}^2}(\beta)$, prennons par exemple des valeurs symetriques :
+
+$$
+\left\{
+          \begin{array}{ll} 
+               F_{\chi_{2n}^2}(\gamma) = 1 - \frac{\alpha}{2} \\
+              F_{\chi_{2n}^2}(\beta) = \frac{\alpha}{2}
+          \end{array}
+      \right.
+$$
+
+
+$$
+\Rightarrow
+\left\{\begin{array}{ll} 
+               \gamma = F_{\chi_{2n}^2}^{-1}(1 - \frac{\alpha}{2}) \\
+              \beta = F_{\chi_{2n}^2}^{-1}(\frac{\alpha}{2})
+          \end{array}
+      \right.
+$$
+Ce qui donne comme intervalle de confiance pour le paramètre a:
+
+$$
+\Bigg[\frac{F_{\chi_{2n}^2}^{-1}(\frac{\alpha}{2})}{2n\overline{Y_n}},\frac{F_{\chi_{2n}^2}^{-1}(1-\frac{\alpha}{2})}{2n\overline{Y_n}}\Bigg] = \Bigg[\frac{F_{\chi_{2n}^2}^{-1}(\frac{\alpha}{2})}{2\sum \limits_{i=0}^n \ln (X_i/2)},\frac{F_{\chi_{2n}^2}^{-1}(1-\frac{\alpha}{2})}{2\sum \limits_{i=0}^n \ln (X_i/2)}\Bigg]
+$$
+
+$\textbf{5-Cinquième question:}$
+
+Pour valider ce modèle probabiliste, cherchons $h$ tq $h(F_X(x)) = \alpha_a g(x) + \beta_a$.
+On choisit $h(x) = ln(1-x)$
+On a 
+$$
+h(F_X(x)) = a\ln(\frac{2}{x})1_{[2,+\infty[}
+$$
+donc
+$$
+\left \{
+\begin{array}{l}
+    g(x) = \ln(\frac{2}{x})1_{[2,+\infty[}\\
+    \alpha_a =  a \\
+    \beta_a =   0\\
+\end{array}
+\right.
+$$
+
+traçons maintenant (g(xi*),ln(1 - i/n)) :
+\
+\
+\
+```{r, echo=FALSE}
+g_cuve = NULL
+g = function(x){
+  if (x > 2){
+    g = log(2/x)
+  }
+  else{
+    g = 0
+  }
+g
+}
+```
+
+
+```{r, echo=FALSE,fig.width=8,fig.height=3.5}
+#pour cuve1
+par(mfcol=c(1,3))
+n = length(cuve1)
+x1 = sapply(cuve1,g)
+plot(x1[1:(n-1)],log(1-seq(1:(n-1))/n), main= "CUVE 1")
+reg1 <- lm(log(1-seq(1:(n-1))/n)~x1[1:(n-1)])
+estimation_graph_a_1 <- reg1$coefficient[2]
+abline(reg1,col="red")
+
+#pour cuve2
+
+n = length(cuve2)
+x2 = sapply(cuve2,g)
+plot(x2[1:(n-1)],log(1-seq(1:(n-1))/n), main= "CUVE 2")
+reg2 <- lm(log(1-seq(1:(n-1))/n)~x2[1:(n-1)])
+estimation_graph_a_2 <- reg2$coefficient[2]
+abline(reg2,col="red")
+
+#pour cuve3
+
+n = length(cuve3)
+x3 = sapply(cuve3,g)
+plot(x3[1:(n-1)],log(1-seq(1:(n-1))/n), main= "CUVE 3")
+reg3 <- lm(log(1-seq(1:(n-1))/n)~x3[1:(n-1)])
+estimation_graph_a_3 <- reg3$coefficient[2]
+abline(reg3,col="red")
+```
+
+On remarque que les 2 premières courbes obtenues s'apparentent bien à des droites mais que pour la 3ième cuve ce n'est pas le cas.
+\
+On en déduit donc que Pa(a,2) est une loi qui modélise bien X pour les 2 premières cuves uniquement.
+Nous chercherons plus tard une loi qui modéliserait bien la cuve 3.
+\
+\
+
+```{r}
+# Tableau d'estimation graphiques du paramètre a.
+Cuves <- c("Cuve 1","Cuve 2","Cuve 3")
+valeurs_a <- c(estimation_graph_a_1,estimation_graph_a_2,estimation_graph_a_3)
+data.frame(Cuves,valeurs_a)
+```
+
+$\textbf{EMM:}$
+
+on a
+
+$$
+E[X] = \frac{2a}{a-1} \approx \overline{X_n}
+\iff \tilde{a_n} = \frac{\overline{X_n}}{\overline{X_n} - 2}
+$$
+
+et pour $\textbf{EVS:}$
+
+soient X1,X2....Xn des variables aléatoires de même loi que X et indépendantes
+on a
+$$
+\frac{\partial}{\partial a}\ln\left (\prod_{i=1}^nf(x_i)\right ) = 0 \iff \frac{\partial}{\partial a}\ln\left (\frac{2^{an}a^n}{\prod_{i=1}^nx_i^{1+a}}\right ) = 0 
+$$
+
+$$
+\iff \frac{\partial}{\partial a}\left [an\ln(2)+n\ln(a)-(1+a)\left (\sum_{i=1}^n\ln(x_i)\right )\right ] = 0 \\
+\iff \frac{n}{a}-\sum_{i=1}^n\ln(x_i/2)=0 \iff a = \frac{1}{\overline{Y_n}}
+$$
+
+donc
+$$
+\hat{a_n} = \frac{1}{\overline{Y_n}}
+$$
+Calculons maintenant le biais de ce denier.
+$$
+E[\hat{a_n}] = E\left [\frac{1}{\overline{Y_n}}\right ]
+$$
+Or on sait que:
+$$
+Y \sim \Gamma(1,a) 
+\Rightarrow  
+\frac{1}{n}\sum\limits_{i=1}^n Y_i  \sim \Gamma(n,na) \Rightarrow
+\overline{Y_n} \sim \Gamma(n,na)
+$$
+Ainsi on a
+$$
+E[\hat{a_n}] =  \int_{-\infty}^{+\infty} \frac{1}{y} f_{\overline{Y_n}}(y)dy =
+      \int_{-\infty}^{+\infty} \frac{y^{n-2}e^{\frac{-y}{na}}}{\Gamma(n)(na)^n}dx = \frac{1}{\Gamma(n)(na)^2} \int_{-\infty}^{+\infty} \frac{y^{n-2}}{(na)^{n-2}}e^{\frac{-y}{na}}dx
+$$
+\
+après changement de variable $u = y/na$ on trouve:
+$$
+E[\hat{a_n}] = \frac{an}{n-1}
+$$
+On en conclut que l'EMV est avec biais.
+\
+Un estimateur sans biais serait donc $\hat{a_n}'= \frac{n-1}{n}\hat{a_n}=\frac{n-1}{n}\frac{1}{\overline{Y_n}}$
+
+
+* **2) Vérifications expérimentales à base de simulations:**
+\
+\
+$\textbf{1-Première question:}$
+
+On a $Y = \ln \frac{X}{b}$ suit la loi de densité:
+$$
+f_{Y}(x) = \left\{
+          \begin{array}{ll} 
+              0 & \mbox{si } y < 0 \\
+              ae^{-ay} & \mbox{si } y\geq 0
+          \end{array}
+      \right.
+$$
+Il y a toujours simplification du paramètre $\textbf{b}$.
+
+Du coup, on pourrait simuler d'abord un échantillon de la loi exponentielle de paramètre $\textbf{a}$, avant de passer l'échantillion en puissance de l'exponentiel et multiplier par $\textbf{b}$:
+
+```{r}
+
+Generer_echantillon = function(a,b,n){
+  echantillon = rexp(n,a)
+  b*exp(echantillon) 
+}
+```
+\
+Exemple d'échantillon de taille 20 avec a = 4 et b = 2.
+```{r}
+Generer_echantillon(4,2,20)
+```
+
+\
+\
+$\textbf{2-Deuxième question:}$
+
+Avant tout, faut définir une fonction "f" qui renvoie dans une liste la borne inf et sup de l'intervalle de confiance pour un seuil $\alpha$.
+
+```{r, echo=FALSE}
+Intervalle_confiance = function(les_alpha, echantillon, b){
+  n <- length(echantillon)
+  diviseur = 2*sum(log(echantillon/b))
+  intervalle = NULL
+  for (alpha in les_alpha){
+    intervalle = append(intervalle, c(qchisq(alpha/2,2*n), qchisq(1-alpha/2,2*n))/diviseur)
+  }
+  intervalle = matrix(intervalle,ncol=2,byrow=TRUE)
+  colnames(intervalle) <- c("Borne Inf","Borne Sup")
+  intervalle
+}
+
+Proportion = function(a,m,n,les_alpha){
+  l = length(les_alpha)
+  prop = rep(0,l)
+  for(i in 1:m){
+    echantillon = Generer_echantillon(a,2,n)
+    bornes = Intervalle_confiance(les_alpha, echantillon, 2)
+    for (i in 1:l){
+      if ((a >= bornes[i,1]) & (a <= bornes[i,2])){
+        prop[i] = prop[i] + 1
+      }
+    }
+  }
+  prop = prop / m
+}
+```
+
+Et procédons maintenant à un test de vérification si la proportion est vraiment égale à 1-aplha, et ce pour les valeurs 0.05, 0.1, 0.25 de $\alpha$, les valeurs 10,100,1000 de n, les valeurs pi, 42, 404 de a, et les valeurs 100, 500, 1000 de m.
+
+```{r, echo=FALSE}
+#test de vérification si la proportion est vraiment égale à 1-aplha
+prop_exp = c()
+les_alpha = c(0.05, 0.1, 0.25)
+for (n in c(10,100,1000)){
+  for (m in c(100, 500, 1000)){
+    for (a in c(pi, 42, 404)){
+        prop_exp = append(prop_exp,Proportion(a,m,n,les_alpha))
+    }
+  }
+}
+prop_exp = matrix(prop_exp, ncol=3, byrow=TRUE)
+colnames(prop_exp) <- les_alpha
+n = c(rep(10,9),rep(100,9),rep(1000,9))
+m = rep(c(rep(100,3),rep(500,3),rep(1000,3)),3)
+a = rep(c(0.42, pi, 404),9)
+data.frame(n,m,a,prop_exp)
+```
+On trouve effectivement que les proportions sont approximativement égales à 1 - $\alpha$.
+
+\
+\
+$\textbf{3-Troisième question:}$
+
+Pour les estimateurs EMM, EMV et EMVSB calculons le biais et l'erreur quadratique moyenne.
+On fera les calculs pour pour $a=3$ (>2 pour la convergence de la $\textbf{E}$ et $\textbf{Var}$, $m=1000$, et $n=1000$ la taille de l'échantillon.
+
+```{r, echo=FALSE}
+#On fait les calculs pour a=3, m=1000, et n=10000 la taille de l'échantillon
+estimateurs_EMM <- NULL
+estimateurs_EMV <- NULL
+estimateurs_EMVSB <- NULL #SB pour sans biais.
+for(i in 1:1000){
+  echant = Generer_echantillon(3,2,10000)
+  estimateurs_EMM[i] = (0.01*sum(echant))/(0.01*sum(echant) - 2)
+  estimateurs_EMV[i] = 1/mean(log(echant/2))
+  estimateurs_EMVSB[i]= ((length(echant)-1)/length(echant))/mean(log(echant/2))
+}
+biais_EMM = mean(estimateurs_EMM) - 3 #a est de valeur 3.
+biais_EMV = mean(estimateurs_EMV) - 3
+biais_EMVSB = mean(estimateurs_EMVSB) - 3
+EQM_EMM = mean((estimateurs_EMM - 3)^2)
+EQM_EMV = mean((estimateurs_EMV - 3)^2)
+EQM_EMVSB = mean((estimateurs_EMVSB - 3)^2)
+
+Données = c("Biais_EMM","Biais_EMV","Biais_EMVSB","EQM_EMM","EQM_EMV","EQM_EMVSB")
+Valeurs = c(biais_EMM,biais_EMV,biais_EMVSB,EQM_EMM,EQM_EMV,EQM_EMVSB)
+data.frame(Données,Valeurs)
+```
+
+D'après le tableau ci dessus, l'EMV sans biais apparaît comme le meilleur estimateur.
+\
+\
+\
+$\textbf{4-Quatrième question:}$
+
+On uilise donc le EMVSB
+
+```{r, echo=FALSE,fig.width=8,fig.height=3.5}
+m <- 1000
+ns <- 100*c(1:100)
+eps <- 0.10
+a <- 3
+
+erreur <- function(m,ns,eps,a){
+  erreur_moyenne <- matrix(0,1,length(ns))
+  for (k in 1:length(ns)){
+    n = ns[k]
+    mat <- matrix(0,m,n) # On remplit les lignes de M avec des échantillons de la loi.
+    for (i in 1:m){
+      mat[i,] = log(Generer_echantillon(a,2,n)/2)
+    }
+    erreur_moyenne[k]=mean(apply(mat, MARGIN = 1, function(v)(abs((n-1)/n/mean(v) - a) > eps)))
+  }
+  plot(ns, erreur_moyenne)
+  abline(h=0, col="red")
+}
+
+erreur(m,ns,eps,a)
+```
+
+\
+On vérifie bien dans le schéma la convergence faible de l'estimateur => L'erreur moyenne tend vers 0 quand n devient de plus en plus grand.
+\
+\
+\
+\
+$\textbf{5-Cinquième question:}$
+
+Choisissons l'estimateur EMVSB. On pose $m = 1000$ et $a = 3$
+\
+\
+```{r, echo=FALSE}
+gen_ech_EMV = function(n, m=10000, a=3){
+  estimateurs_EMV <- NULL
+  for(i in 1:m){
+    echant = Generer_echantillon(a,2,n)
+    estimateurs_EMV[i] = 1/mean(log(echant/2))
+  }
+  estimateurs_EMV
+}
+```
+\
+\
+\
+**pour n = 5**
+\
+```{r, echo=FALSE,fig.width=8,fig.height=3.5 }
+
+# histogrammes
+n_5 = gen_ech_EMV(5)
+par(mfcol=c(1,3))
+histolarg(n_5,xlim=NULL, "n_5")
+lines(density(n_5))
+histoeff(n_5,xlim=NULL, "n_5")
+lines(density(n_5))
+# graphe de proba
+qqnorm(n_5)
+```
+\
+\
+\
+\
+\
+**pour n = 10**
+\
+```{r, echo=FALSE,fig.width=8,fig.height=3.5 }
+# pour n = 10
+n_10 = gen_ech_EMV(10)
+par(mfcol=c(1,3))
+histolarg(n_10, xlim=NULL, "n_10")
+lines(density(n_10))
+histoeff(n_10,xlim=NULL, "n_10")
+lines(density(n_10))
+# graphe de proba
+qqnorm(n_10)
+```
+\
+\
+\
+\
+\
+**pour n = 20**
+\
+```{r, echo=FALSE,fig.width=8,fig.height=3.5 }
+# pour n = 20
+n_20 = gen_ech_EMV(20)
+par(mfcol=c(1,3))
+histolarg(n_20, xlim=NULL, "n_20")
+lines(density(n_20))
+histoeff(n_20, xlim=NULL, "n_20")
+lines(density(n_20))
+# graphe de proba
+qqnorm(n_20)
+```
+\
+Les histogrammes et les graphes de probabilités laissent effectivement penser que l'estimateur en question suit bien la loi normale.
+
+\
+\
+\
+\
+\
+
+* **Troisième partie:**
+
+$\textbf{1-Première question:}$
+
+Pour les deux premières cuves le modèle de la loi $P_a(a,2)$ semble correspondre au phénomène.
+Pour choisir le paramètre $a$, on utilise l'EMVSB car  c'est le meilleur estimateur que l'on ai trouvé précédement.
+Ce qui nous donne pour les cuves 1 et 2:
+\
+$$X \sim Pa(a,2) \text{  où } a = \frac{1}{\overline{y_n}} \approx 3.37$$
+
+Pour arriver à cette valeur de $a$, on fait une moyenne de toutes les valeurs estimées de $a$ pour toutes les cuves.
+
+```{r}
+valeurs_a <-c(((length(cuve1)-1)/length(cuve1))*(1/mean(log(cuve1/2))),
+((length(cuve2)-1)/length(cuve2))*(1/mean(log(cuve2/2))),
+((length(cuve3)-1)/length(cuve3))*(1/mean(log(cuve3/2))))
+mean(valeurs_a)
+```
+\
+\
+Il nous reste à trouver un modèle qui corresponde à la cuve 3.
+Testons le modèle d'une loi normale
+```{r}
+  n = length(cuve3)
+  FdP_norm = qnorm((1:(n-1))/n)
+  cuve = cuve3[1:(n-1)]
+  plot(cuve,FdP_norm)
+  reg<-lm(FdP_norm~cuve)
+  lines(cuve, fitted.values(reg))
+```
+La loi normale semble donc être une bonne loi pour la cuve 3
+\
+\
+\
+\
+$\textbf{2-Deuxième question:}$
+\
+\
+$\textbf{a)}$
+On exprime la probabilité d'avoir des défauts non dangereux, si elle est supérieur à 95%, le constructeur a raison. le calcul se fera donc avec la commande "pexp" en R.
+$$
+P(X<5) = P(Y < ln(5/2))\\
+Y \sim exp(a)
+$$
+
+```{r}
+# a = 3.37, à changer si besoin
+a = 3.37
+pexp(log(2.5),rate = a)
+```
+\
+On obtient une probabilité de 4.5% de présence de défauts dangereux, ce qui ne remet pas en cause l'affirmation du constructeur avec la valeur estimée de $a$.
+\
+\
+Vérifions maintenant l'intervalle de confiance de $a$ tel que l'on puisse valider ou infirmer l'affirmation du constructeur. 
+On exprime la probabilité d'avoir des défauts dangereux. Puis on effecue le test $H_0$:"$P(X>5) \geq 0.05$" contre $H_1$:"$P(X>5) < 0.05$"
+
+$$
+P(X>5) \geq 0.05 \\
+\iff \left (\frac25\right )^a \geq 0.05\\
+\iff a \leq \frac{\ln(0.05)}{\ln(2/5)}\\
+\iff a \leq a_0 \text{ avec }a_0 =  \frac{\ln(0.05)}{\ln(2/5)}
+$$
+On va effectuer un test sur $a$ pour savoir quand on ne respecte plus le critère de 5% en posant$H_0$:"$a \leq a_0$" contre $H_1$:"$a > a_0$"
+\
+On choisit un bon intervalle critique pour une loi exponentielle
+$$
+a =\frac1{\overline{Y_n}} \rightarrow a > a_0 \iff \overline{Y_n} < \frac1{a_0}\\
+$$
+D'où $W = \left\{ \overline{y_n} < l_\alpha \right\}$
+Il en vient l'expression suivante de $\alpha$ :
+
+$$
+\alpha = \sup\limits_{\substack{H_0}} P( (X_1, ..., X_n) \in W; a ) = \sup\limits_{\substack{a \leq a_0}} P(\sum_{i = 1}^nY_i < l_\alpha; a)\\
+\alpha = \sup\limits_{\substack{a \leq a_0}} P(2a\sum_{i = 1}^nY_i < 2al_\alpha; a)
+$$
+Or $2a\sum\limits_{i=1}^n Y_i  \sim \chi_{2n}^2$, on obtient donc :
+
+$$
+\alpha = \sup\limits_{a \leq a_0} F_{\chi_{2n}^2}(2al_\alpha)\\
+\iff \alpha = F_{\chi_{2n}^2}(2a_0l_\alpha)\\
+\iff 2a_0l_\alpha = F_{\chi_{2n}^2}^{-1}(\alpha)  = z_{2n,1-\alpha}\\
+\iff l_\alpha = \frac{z_{2n,1-\alpha}}{2a_0}
+$$
+
+\
+On a donc
+$$
+W = \{2a_0\sum_{i=0}^{n}Y_i <z_{2n,1-\alpha}\}
+$$
+\
+On a donc accès à la p-valeur :
+$$
+2a_0\sum_{i=0}^{n}Y_i = z_{2n,1-\alpha_c} = F_{\chi_{2n}^2}^{-1}(\alpha_c)\\
+\iff \alpha_c = F_{\chi_{2n}^2}\left (2\ln\left (\frac{0.05}{2/5}\right ) \sum_{i=0}^{n}Y_i \right )
+$$
+\
+Avec R on obtient :
+```{r}
+n = length(cuve1) + length(cuve2) + length(cuve3)
+somme = sum(c(cuve1,cuve2,cuve3))
+alpha = pchisq(2*log(0.05/2*5)*somme,df=2*n)
+alpha
+```
+
+\
+Au vu de la valeur obtenue pour $\alpha$, nous avons une erreur quleque part, cependant nous ne pouvons pas la corriger par manque de temps.
+\
+\
+\
+$\textbf{b)}$
+
+L'appareil B nous donne 2 sorties avec une probabilité p, on retrouve une loi de Bernoulli
+On étudie donc ici un test sur une proportion avec une probabilité d'erreur de 5%.
+
+$$
+\alpha = 0.05 \\\\
+p_0 = 0.05 \\\
+H_0 :"p \geq p_0" \\\\
+H_1 :"p < p_0"\\\\
+W =\left \{
+      \begin{array}{ccc}
+      \frac{t - np_0}{\sqrt{np_0(1-p_0)}} > u_{2\alpha}
+      \end{array}
+    \right \}
+$$
+On calcule maintenant la région critique pour toute les cuves et on la compare avec la valeur 
+$u_{2\alpha}$ qu'on obtient avec $qnorm(1 - \alpha)$ dans R.
+
+```{r, echo=FALSE}
+alpha = 0.05
+p0 = 0.05
+n1 = length(cuve1)
+n2 = length(cuve2)
+n3 = length(cuve3)
+t1 = sum(cuve1 > 5)
+t2 = sum(cuve2 > 5)
+t3 = sum(cuve3 > 5)
+confiance <-c((t1 - n1*p0)/(sqrt(n1*p0*(1-p0))) > qnorm(1-alpha),
+              (t2 - n2*p0)/(sqrt(n2*p0*(1-p0))) > qnorm(1-alpha),
+              (t3 - n3*p0)/(sqrt(n3*p0*(1-p0))) > qnorm(1-alpha))
+names(confiance) <- c("Cuve 1", "Cuve 2", "Cuve 3")
+data.frame(confiance) 
+```
+
+On n'est pas dans la région critique, on ne peut donc pas rejeter $H_0$
+Ainsi, et suivant les résultats obtenus, il ne serait pas judicieux de rejeter l'hypothèse $H_0$.
+```{r}
+#test d'hypothèse de proportion avec R.
+binom.test(t1,n1,p=0.05,alternative="less")
+binom.test(t2,n2,p=0.05,alternative="less")
+binom.test(t3,n3,p=0.05,alternative="less")
+```
+\
+Avec les tests effectués en R, on conforte nos résultats vu les valeurs élevées des p-valeurs.
+
