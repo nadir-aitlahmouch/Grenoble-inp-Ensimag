@@ -1,0 +1,243 @@
+body {
+    
+    background-image: url("pics/background_1.png");
+    background-size: 2000px;
+}
+p{
+    text-align: center;
+}
+h1 {
+ 
+    text-align: center;
+    margin: 1em 0 0.5em 0;
+    font-weight: 600;
+    font-family: 'Titillium Web', sans-serif;
+    position: relative;  
+    font-size: 40px;
+    line-height: 40px;
+    padding: 15px 15px 15px 15%;
+    color: #355681;
+    box-shadow: 
+        inset 0 0 0 1px rgba(53,86,129, 0.4), 
+        inset 0 0 5px rgba(53,86,129, 0.5),
+        inset -285px 0 35px white;
+    border-radius: 0 10px 0 10px;
+    background: #fff url("pics/loup_garou.png") no-repeat center left;
+    background-size: 200px;
+}
+
+h2{
+    
+    text-align: center;
+    margin: 1em 0 0.5em 0;
+    font-weight: normal;
+    position: relative;
+    text-shadow: 0 -1px rgba(0,0,0,0.6);
+    font-size: 35px;
+    line-height: 40px;
+    background: #355681;
+    background: rgba(53,86,129, 0.8);
+    border: 1px solid #fff;
+    padding: 5px 15px;
+    color: white;
+    border-radius: 0 10px 0 10px;
+    box-shadow: inset 0 0 5px rgba(53,86,129, 0.5);
+    font-family: 'Muli', sans-serif;
+
+}
+h3{
+    text-align: center;
+}
+table{
+    margin: 0 auto;
+    border:medium solid;
+    border-collapse: collapse;
+    width: 90%;
+    background-color: white;
+}
+th{
+    border:medium solid;
+    background-color: #D0E3FA;
+}
+td{
+    border:medium solid;
+    text-align: center;
+}
+.same {
+  width: 68%;
+  display: flex;
+}
+.item {
+  width : 80%;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: auto;
+}
+
+.container{
+
+        background-color: LightGray;
+        position: absolute;
+        bottom: 0.3%;
+        right: 0.3%;
+        width :25%;
+        margin: 0 auto;
+        border: solid 1px #ccc;
+        border-radius: 5px;
+        overflow: hidden;
+    }
+.chat-container{
+
+        height: 400px;
+        overflow: auto;
+        direction: rtl;
+    }
+.message{
+    border:medium solid;
+    border-bottom: medium solid;
+    border-collapse: collapse;
+    padding: 5%;
+    direction: ltr;
+  }
+.avatar{
+      float: left;
+      margin-right: 5px;
+   }
+.datetime{
+      float: right;
+      color: #999;
+    }
+    .pseudonyme{
+      float: left;
+      color: #999; 
+    }
+.send-message-form input{
+    width :100%;
+    right: 2%;
+    border :none;
+    font-size :16px;
+    padding :10px;
+    }
+button{
+    display: non;
+  }
+
+  form input {
+    border:medium solid;
+    font: normal 8pt verdana, helvetica, sans-serif;
+    margin: 3px 3px 0px 0px;
+    border: 1px #999 solid;
+    padding: 10px 95px;
+    background-color: white;
+}
+
+form input.Jour {
+padding: 10px 20px;
+display: inline-block;
+font-size: 24px;
+cursor: pointer;
+text-align: center;
+text-decoration: none;
+outline: none;
+color: #fff;
+background-color: #4CAF50;
+border: none;
+border-radius: 15px;
+box-shadow: 0 9px #999;
+}
+
+form input.Nuit {
+right: 0px;
+top: 200px;
+padding: 10px 20px;
+display: inline-block;
+font-size: 24px;
+cursor: pointer;
+text-align: center;
+text-decoration: none;
+outline: none;
+color: #fff;
+background-color: #4CAF50;
+border: none;
+border-radius: 15px;
+box-shadow: 0 9px #999;
+}
+.archive {
+    bottom: 50;
+}
+form input.sansLabel{
+    background-color: #4CAF50;
+    position: absolute;
+    right: 0.2%;
+    padding: 10px 10px;
+}
+form input.valider{
+    background-color: #4CAF50;
+    position: absolute;
+    padding: 0.3% 1%;
+}
+
+form input.Deconnexion{
+    background-color: #4CAF50;
+    position: absolute;
+    right : 0.3%;
+    padding: 0.3% 1%;
+}
+.information{
+    margin: 0 auto;
+    width: 40%;
+    /* Encadré pour voir les limites du formulaire */
+    font-size: 20px;
+    font-weight: bold;
+    color: #fff;
+    background: #355681;
+    border: 1px solid #fff;
+    padding: 5px 15px;   
+}
+.notification{
+    margin: 0 auto;
+    width: 40%;
+    /* Encadré pour voir les limites du formulaire */
+    font-size: 20px;
+    font-weight: bold;
+    color: black;
+    background: AliceBlue;
+    border: 1px solid #fff;
+    padding: 5px 15px;   
+}
+.ListJoueurs{
+    margin: 0 auto;
+    width: 100%;
+    /* Encadré pour voir les limites du formulaire */
+    font-size: 20px;
+    font-weight: bold;
+    color: #fff;
+    background-image: url("pics/loupgarou_humain.jpg");
+    background-repeat:no-repeat;
+    background-position: center center; 
+}
+
+.button {
+                
+display: inline-block;
+padding: 15px 25px;
+font-size: 24px;
+cursor: pointer;
+text-align: center;
+text-decoration: none;
+outline: none;
+color: #fff;
+background-color: #4CAF50;
+border: none;
+border-radius: 15px;
+box-shadow: 0 9px #999;
+            }
+
+.button:hover {background-color: #3e8e41}
+
+.button:active {
+    background-color: #3e8e41;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+            }
+            
